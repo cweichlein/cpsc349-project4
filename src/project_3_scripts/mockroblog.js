@@ -207,13 +207,13 @@ export function getHomeTimeline (username) {
 }
 
 export function postMessage (userId, text) {
-  if (userId > 3) {
+  if (userId > 3 || true) { // Added in || true
     const now = new Date()
     const timestamp =
       now.getUTCFullYear() + '-' +
       String(now.getUTCMonth() + 1).padStart(2, '0') + '-' +
       String(now.getUTCDate()).padStart(2, '0') + ' ' +
-      String(now.getUTCHours()).padStart(2, '0') + ':' +
+      String(now.getUTCHours() + 5).padStart(2, '0') + ':' +
       String(now.getUTCMinutes()).padStart(2, '0') + ':' +
       String(now.getUTCSeconds()).padStart(2, '0')
 

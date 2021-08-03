@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Stoopneggle</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!-- <link rel="stylesheet" href="styles/tailwind.css"> -->
+        <!-- <script type="module" src="scripts/init.js"></script> -->
+    </head>
+    <body class="grid grid-cols-4 gap-5 bg-indigo-900 text-white">
+        <!-- Header -->
+        <header class="flex col-start-2 col-end-4 text-center items-center justify-center my-16">
+            <h2 class="text-center text-5xl text-white">Stoopneggle</h2>
+        </header>
+
+        <!-- Navbar -->
+        <nav class="hidden lg:col-start-1 lg:row-start-1 lg:grid lg:grid-cols-4 lg:gap-1 lg:row-span-3">
+            <div class="col-start-2">
+                <div class="fixed h-full w-44 flex flex-col text-center justify-center bg-opacity-50 bg-purple-800">
+                    <a class="login-status p-5" href="/">Logged in as @{username}</a>
+                    <hr>
+                    <a class="hover:bg-purple-700 p-5" id="home_tl" href="home_timeline.html">Home Timeline</a> 
+                    <a class="hover:bg-purple-700 p-5" id="public_tl" href="public_timeline.html">Public Timeline</a>
+                    <a class="hover:bg-purple-700 p-5" id="user_tl" href="user_timeline.html">User Timeline</a> 
+                    <a class="hover:bg-purple-700 p-5" id="following_tl" href="following.html">Following</a>
+                    <hr>
+                    <button id="logout-button" class="hover:bg-purple-700 p-5">Logout</button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Mobile Navbar -->
+        <div class="lg:hidden col-start-2 col-end-4 text-center justify-center items-center">
+            <button id="mobile-menu-button">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16" viewBox="0 0 20 20" fill="currentColor">
+                    <path id="mobile-menu-button-icon-menu" fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 
+                    2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
+                </svg>
+            </button>
+            <div id="mobile-menu" class="hidden bg-indigo-800">
+                <a class="login-status block p-5" href="">Logged in as {username}</a> 
+                <a class="block hover:bg-purple-700 p-5 bg-purple-800 active" id="home_tl" href="home_timeline.html">Home Timeline</a> 
+                <a class="block hover:bg-purple-700 p-5" id="public_tl" href="public_timeline.html">Public Timeline</a>
+                <a class="block hover:bg-purple-700 p-5" id="user_tl" href="user_timeline.html">User Timeline</a> 
+                <a class="block hover:bg-purple-700 p-5" id="following_tl" href="following.html">Following</a>
+                <button id="mobile-logout-button" class="hover:bg-purple-700 p-5">Logout</button>
+            </div>
+        </div>
+
+        <!-- Main Content Content -->
+        <main class="flex flex-col space-y-16 about-us-container col-start-2 col-end-4">
+            <!-- Chris Card -->
+            <div class="about-us-card flex flex-col lg:flex-row">
+                <div class="about-us-image-container flex justify-center bg-purple-800 rounded-lg lg:w-72">
+                    <img class="rounded-lg lg:h-72 lg:m-auto" src="./images/tym2rite.png" alt="Chris">
+                </div>
+                <div class="about-us-info text-center flex flex-col space-y-4 flex-1 justify-between rounded-lg p-5 lg:p-10 bg-white text-black">
+                    <h2 class="font-bold text-xl">Christopher Weichlein</h2>
+                    <p class="text-sm lg:text-base">
+                        A semi-dedicated Christorian, Venetian mask collector, improv enthusiast,
+                        and professional time-waster, I like to focus on the hallucinogenic aspects of web design,
+                        such as "would this About Me page taste better if there was stock music playing whilst
+                        attempting to navigate it?" You can find me in my room most days, listening to Skynd and 
+                        coding terrible videogames. Or banging on the piano loudly and badly much to my dearest mother's chagrin.
+                    </p>
+                    <div>
+                        <a class="text-blue-900 font-bold hover:text-purple-600 transition duration-300" 
+                        href="mailto:cweichlein@csu.fullerton.edu">Email Christopher</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Manny Card -->
+            <div class="about-us-card flex flex-col lg:flex-row">
+                <div class="about-us-image-container flex justify-center bg-purple-800 rounded-lg lg:w-72">
+                    <img class="rounded-lg lg:h-72 lg:m-auto" src="./images/Manny.jpg" alt="Manny">
+                </div>
+                <div class="about-us-info text-center flex flex-col space-y-4 flex-1 justify-between rounded-lg p-5 lg:p-10 bg-white text-black">
+                    <h2 class="font-bold text-xl">Manuel Perez</h2>
+                    <p class="text-sm lg:text-base">
+                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Fugit, at ex similique recusandae consequuntur fugiat hic ut inventore? Pariatur corrupti soluta nobis accusantium! Explicabo, ad impedit debitis quod adipisci reprehenderit necessitatibus odit amet doloribus, cum natus molestiae aliquam expedita vitae totam! Id ea corrupti dolore accusamus voluptas aut mollitia omnis.
+                    </p>
+                    <div>
+                        <a class="text-blue-900 font-bold hover:text-purple-600 transition duration-300" 
+                        href="mailto:mperez5891@csu.fullerton.edu">Email Manuel</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Usman Card -->
+            <div class="about-us-card flex flex-col lg:flex-row">
+                <div class="about-us-image-container flex justify-center bg-purple-800 rounded-lg lg:w-72">
+                    <img class="rounded-lg lg:h-72 lg:m-auto" src="./images/usman.jpeg" alt="Usman">
+                </div>
+                <div class="about-us-info text-center flex flex-col space-y-4 flex-1 justify-between rounded-lg p-5 lg:p-10 bg-white text-black">
+                    <h2 class="font-bold text-xl">Mohammad Usman Qazi</h2>
+                    <p class="text-sm lg:text-base">
+                        This is my second year at CSUF as a Computer Science Major. I transferrred from OCC last year.
+                        Prior to this class, I had a basic understanding of HTML and CSS with quite a bit of experience as well,
+                        but I didn't know any JavaScript. This class has taught me much about JavaScript.
+                    </p>
+                    <div>
+                        <a class="text-blue-900 font-bold hover:text-purple-600 transition duration-300" 
+                        href="mailto:usmanqazi8@gmail.com">Email Usman</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Stanley Card -->
+            <div class="about-us-card flex flex-col lg:flex-row">
+                <div class="about-us-image-container flex justify-center bg-purple-800 rounded-lg lg:w-72">
+                    <img class="rounded-lg lg:h-72 lg:m-auto" src="./images/stan.png" alt="Stanley">
+                </div>
+                <div class="about-us-info text-center flex flex-col space-y-4 flex-1 justify-between rounded-lg p-5 lg:p-10 bg-white text-black">
+                    <h2 class="font-bold text-xl">Stanley Shi</h2>
+                    <p class="text-sm lg:text-base">
+                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptate rem eos repellat quisquam, ea, quasi aperiam esse repellendus voluptatem est quo, asperiores incidunt quaerat. Iste quos cupiditate facilis aliquid illum qui libero quod, sit quidem accusamus, repudiandae esse ullam delectus vel deleniti modi reiciendis quam alias doloremque laboriosam saepe? Autem.
+                    </p>
+                    <div>
+                        <a class="text-blue-900 font-bold hover:text-purple-600 transition duration-300" 
+                        href="mailto:stanleyshi@csu.fullerton.edu">Email Stanley</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Yu Card -->
+            <div class="about-us-card flex flex-col lg:flex-row">
+                <div class="about-us-image-container flex justify-center bg-purple-800 rounded-lg lg:w-72">
+                    <img class="rounded-lg lg:h-72 lg:m-auto" src="./images/placeholder.jpg" alt="Yu">
+                </div>
+                <div class="about-us-info text-center flex flex-col space-y-4 flex-1 justify-between rounded-lg p-5 lg:p-10 bg-white text-black">
+                    <h2 class="font-bold text-xl">Yu Li</h2>
+                    <p class="text-sm lg:text-base">
+                        A senior undergrad Computer Science major. I've only known the very basics of HTML and CSS 
+                        before taking a Front-End Web development class. This class has been useful in refreshing 
+                        whatever knowledge I have and also teaching me about HTML, CSS, and JavsScript.
+                    </p>
+                    <div>
+                        <a class="text-blue-900 font-bold hover:text-purple-600 transition duration-300" 
+                        href="mailto:JackLi64842@csu.fullerton.edu">Email Yu</a>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <div class="col-span-4 lg:col-start-2 lg:col-end-4 p-10 text-center">
+            <hr class="h-px bg-gray-600 border-none w-auto">
+            <h2 class="m-5">Copyright @ 2021 CSUF Team 7</h2>
+            <div class="flex flex-col lg:space-x-16 my-5 justify-center items-center text-center lg:justify-between lg:flex-row">
+                <div>
+                    <a href="home_timeline.html" class="text-xl font-bold">Stoopneggle</a>
+                </div>
+                <div class="flex mt-4 space-x-4 text-base lg:m-0">
+                    <a class="hover:text-gray-500 transition duration-300" href="about.html">About</a>
+                    <a class="hover:text-gray-500 transition duration-300" target="_blank" href="https://drive.google.com/file/d/1QZrSpKFQdVk3KfFoK6carHEKJtlG-8ve/view?usp=sharing">Wireframes</a>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

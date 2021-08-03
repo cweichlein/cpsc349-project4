@@ -9,6 +9,26 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: path.resolve(__dirname, 'src/index.html')
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'about.html',
+      template: path.resolve(__dirname, 'src/about.html')
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'home_timeline.html',
+      template: path.resolve(__dirname, 'src/home_timeline.html')
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'public_timeline.html',
+      template: path.resolve(__dirname, 'src/public_timeline.html')
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'user_timeline.html',
+      template: path.resolve(__dirname, 'src/user_timeline.html')
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'following.html',
+      template: path.resolve(__dirname, 'src/following.html')
     })
   ],
   module: {

@@ -1,40 +1,89 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="h-full" lang="en">
     <head>
-        <title>API Test</title>
+        <title>Stoopneggle</title>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!-- <link rel="stylesheet" href="styles/tailwind.css"> -->
+        <!-- <script type="module" src="scripts/authentication.js"></script> -->
     </head>
-    <body class="bg-gray-50 flex flex-col min-h-screen">
-        <div class="container flex-grow px-8">
-            <h1>API Test</h1>
+    <body class="flex h-full flex-col bg-indigo-900 text-white justify-center items-center">
+        <!-- Navbar -->
+        <header class="flex mt-16 mb-8 lg:my-16 text-center justify-center">
+            <h2 class="text-5xl text-center text-white">Stoopneggle</h2>
+        </header>
 
-            <form id="search">
-                <div class="relative">
-                    <span class="absolute inset-y-0 flex items-center pl-2">
-                        <img src="./magnifying-glass.png" class="w-5 h-5">
-                    </span>
-                    <input type="search" id="keyword" name="q" class="pl-10 pr-1 py-1" placeholder="keyword..." autofocus>
+        <!-- Login div -->
+        <p id="login-validation" class="block text-center text-xl text-red-500"></p>
+        <div id="login-form" class="flex flex-col space-y-10 m-16">
+            <div class="flex justify-center bg-indigo-800 p-6 rounded-lg">
+                <div id="login" class="grid grid-rows-3 text-right text-lg md:text-2xl">
+                    <label class="row-start-1 my-2" for="username">Username: </label>
+                    <label class="row-start-2 my-2" for="password">Password: </label>
+                    <input class="row-start-1 text-black p-1 m-2 outline-none rounded-sm focus:bg-indigo-100"
+                    autocomplete="off" type="text" id="login-username" name="username">
+                    <input class="row-start-2 text-black p-1 m-2 outline-none rounded-sm focus:bg-indigo-100"
+                    autocomplete="off" type="password" id="login-password" name="password">
+                    <div class="flex justify-center col-span-2 mt-4">
+                        <button id="login-button" class="row-start-3 bg-blue-600 px-2 rounded-lg 
+                        hover:bg-blue-700 transition duration-300">
+                            Login
+                        </button>
+                    </div>
                 </div>
-            </form>
+            </div>
 
-            <div id="results" class="py-2" hidden>
-                <h2>Search Results</h2>
-                <pre id="result-value">None</pre>
+            <div class = "flex text-center items-center justify-center">
+                <button id="new-registration-button" class="bg-red-900 p-2 md:p-3 rounded-xl hover:bg-red-800 transition duration-300">
+                    Don't have an account? Click here to register.
+                </button>
             </div>
         </div>
 
-        <footer class="text-xs flow-root">
-            <div class="pl-2 float-left">
-                Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a>
-                from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+        <!-- Registration div -->
+        <p id="registration-validation" class="block text-center text-xl text-red-500"></p>
+        <div id="registration-form" class="flex flex-col space-y-10 m-4 md:m-2 hidden">
+            <div class="flex justify-center bg-indigo-800 p-6 rounded-lg">
+                <div id="login" class="grid grid-rows-5 text-right text-sm md:text-2xl">
+                    <label class="row-start-1 my-2" for="registration-email">Email: </label>
+                    <label class="row-start-2 my-2" for="registration-username">Username: </label>
+                    <label class="row-start-3 my-2" for="registration-password">Password: </label>
+                    <label class="row-start-4 my-2" for="registration-confirm-password">Confirm Password: </label>
+                    <input class="row-start-1 text-black p-1 m-2 outline-none rounded-sm focus:bg-indigo-100"
+                    autocomplete="off" type="text" id="registration-email" name="email">
+                    <input class="row-start-2 text-black p-1 m-2 outline-none rounded-sm focus:bg-indigo-100"
+                    autocomplete="off" type="text" id="registration-username" name="username">
+                    <input class="row-start-3 text-black p-1 m-2 outline-none rounded-sm focus:bg-indigo-100"
+                    autocomplete="off" type="password" id="registration-password" name="password">
+                    <input class="row-start-4 text-black p-1 m-2 outline-none rounded-sm focus:bg-indigo-100"
+                    autocomplete="off" type="password" id="registration-confirm-password" name="confirm-password">
+                    <div class="flex justify-center col-span-2 mt-4">
+                        <button id="register-button" class="row-start-5 bg-blue-600 px-2 rounded-lg 
+                        hover:bg-blue-700 transition duration-300">Register</button>
+                    </div>
+                </div>
             </div>
-            <div class="float-right pr-2">
-                Search input with integrated icon by
-                <a href="https://tailwindcomponents.com/u/cricksu" title="Criksu">Cricksu</a>
-                from
-                <a href="https://tailwindcomponents.com/component/search-input-with-integrated-icon-and-button" title="TailwindComponents">tailwindcomponents.com</a>
+
+            <div class = "flex text-center items-center justify-center">
+                <button id="new-login-button" class="bg-red-900 p-2 md:p-3 rounded-xl hover:bg-red-800 transition duration-300">
+                    Already have an account? Click here to login.
+                </button>
             </div>
-        </footer>
+        </div>
+            
+        <!-- Footer -->
+        <div class="p-10 text-center">
+            <hr class="h-px bg-gray-600 border-none w-auto">
+            <h2 class="m-5">Copyright @ 2021 CSUF Team 7</h2>
+            <div class="flex flex-col lg:space-x-16 my-5 justify-center items-center text-center lg:justify-between lg:flex-row">
+                <div>
+                    <a href="home_timeline.html" class="text-xl font-bold">Stoopneggle</a>
+                </div>
+                <div class="flex mt-4 space-x-4 text-base lg:m-0">
+                    <a class="hover:text-gray-500 transition duration-300" href="about.html">About</a>
+                    <a class="hover:text-gray-500 transition duration-300" target="_blank" href="https://drive.google.com/file/d/1QZrSpKFQdVk3KfFoK6carHEKJtlG-8ve/view?usp=sharing">Wireframes</a>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
