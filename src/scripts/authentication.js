@@ -1,7 +1,6 @@
-import * as mockroblog from '../mockroblog.js'
+import * as mockroblog from './mockroblog.js'
 
 console.log('authentication.js called')
-
 
 // Display error after redirect to login page if not logged in
 if (window.sessionStorage.getItem('login-error') !== null) {

@@ -2,37 +2,18 @@ import * as helper from './helper.js'
 import * as mockroblog from './mockroblog.js'
 
 console.log('timeline.js called')
-console.log(helper.getFollowing(1))
 
 // Determine what type of content to display
 
 let timeline = null
 const username = window.sessionStorage.getItem('username')
 
-// Help from: https://www.digitalocean.com/community/tutorials/how-to-use-the-javascript-fetch-api-to-get-data
-async function getHomeTimeline (url, following) {
-  return await fetch(url)
-    .then((response) => response.json())
-    .then((data) => {
-      const timeline = []
-      const posts = data.resources
-      for (let i = 0; i < posts.length; i++) {
-        if (posts[i].user_id == 1) {
-          timeline.push(posts[i])
-        }
-      }
-      return timeline
-    })
-}
-
 if (document.getElementById('home_tl') === document.querySelector('.active')) {
-  // timeline = mockroblog.getHomeTimeline(username)   //todo
-  timeline = await getHomeTimeline('http://localhost:5000/posts', username)
-  console.log(timeline)
+  timeline = await helper.getHomeTimeline(username)
 } else if (document.getElementById('user_tl') === document.querySelector('.active')) {
-  timeline = mockroblog.getUserTimeline(username)
+  timeline = mockroblog.getUserTimeline(username) //todo
 } else if (document.getElementById('public_tl') === document.querySelector('.active')) {
-  timeline = mockroblog.getPublicTimeline()
+  timeline = mockroblog.getPublicTimeline()   //todo
 }
 
 // Logged in as {username} on navbar
@@ -94,8 +75,9 @@ mobileBtn.addEventListener('click', () => {
 if (!window.location.pathname.includes('/about.html')) {
   if (timeline !== null) {
     for (let i = 0; i < timeline.length; i++) {
-      // let userId = mockroblog2.getUsername(timeline[i].user_id)   //todo
-      const userId = 1
+      let user = await helper.getUser(timeline[i].user_id)
+      let userId = user.username
+
       let followOrUnfollowButton = ''
       if (userId !== window.sessionStorage.getItem('username')) {
         followOrUnfollowButton = "<button class='" + userId + '-follow-or-unfollow-button ' +

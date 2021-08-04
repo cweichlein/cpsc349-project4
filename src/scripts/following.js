@@ -1,4 +1,4 @@
-import * as mockroblog from '../mockroblog.js'
+import * as mockroblog from './mockroblog.js'
 
 console.log('following.js called')
 
