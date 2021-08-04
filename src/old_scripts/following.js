@@ -41,3 +41,5 @@ for (let i = 0; i < timeline.length; i++) {
     }
 }
 window.sessionStorage.setItem("follow-arr", JSON.stringify(followArr))
+console.log(followArr)
+console.log('i am number 2')

@@ -73,7 +73,7 @@ mobileBtn.addEventListener('click', () => {
 })
 
 // Generate div for each blog post
-
+console.log('i am number 1')
 if (!window.location.pathname.includes('/about.html')) {
   if (timeline !== null) {
     for (let i = 0; i < timeline.length; i++) {
