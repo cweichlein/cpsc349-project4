@@ -13,7 +13,8 @@ module.exports = {
     tailwind: path.resolve(__dirname, 'src/styles/tailwind.css'),
     authentication: path.resolve(__dirname, 'src/scripts/authentication.js'),
     following: path.resolve(__dirname, 'src/scripts/following.js'),
-    timelines: path.resolve(__dirname, 'src/scripts/timelines.js')
+    timelines: path.resolve(__dirname, 'src/scripts/timelines.js'),
+    dms: path.resolve(__dirname, 'src/scripts/direct_messages.js')
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -26,19 +27,19 @@ module.exports = {
       filename: 'home_timeline.html',
       template: path.resolve(__dirname, 'src/home_timeline.html'),
       inject: true,
-      chunks: ['following', 'timelines', 'tailwind']
+      chunks: ['timelines', 'tailwind']
     }),
     new HtmlWebpackPlugin({
       filename: 'public_timeline.html',
       template: path.resolve(__dirname, 'src/public_timeline.html'),
       inject: true,
-      chunks: ['following', 'timelines', 'tailwind']
+      chunks: ['timelines', 'tailwind']
     }),
     new HtmlWebpackPlugin({
       filename: 'user_timeline.html',
       template: path.resolve(__dirname, 'src/user_timeline.html'),
       inject: true,
-      chunks: ['following', 'timelines', 'tailwind']
+      chunks: ['timelines', 'tailwind']
     }),
     new HtmlWebpackPlugin({
       filename: 'following.html',
@@ -51,6 +52,12 @@ module.exports = {
       template: path.resolve(__dirname, 'src/about.html'),
       inject: true,
       chunks: ['timelines', 'tailwind']
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'direct_messages.html',
+      template: path.resolve(__dirname, 'src/direct_messages.html'),
+      inject: true,
+      chunks: ['dms', 'tailwind']
     })
   ],
   module: {
