@@ -16,7 +16,7 @@ if (window.sessionStorage.getItem('user') !== null) {
   }
   
   if (document.getElementById('home_tl') === document.querySelector('.active')) {
-    timeline = await helper.getHomeTimeline(username)
+    timeline = await helper.getHomeTimeline(loggedInUser)
   } else if (document.getElementById('user_tl') === document.querySelector('.active')) {
     timeline = mockroblog.getUserTimeline(username) //todo
   } else if (document.getElementById('public_tl') === document.querySelector('.active')) {
@@ -114,7 +114,7 @@ if (!window.location.pathname.includes('/about.html')) {
       document.getElementById('timeline').append(timelinePost)
 
       // Follow/Unfollow
-      let followArr = await helper.getFollowing(loggedInUser.id)
+      let followArr = await helper.getFollowing(loggedInUser)
       let found = false
       for (let j = 0; j < followArr.length; j++) {
         if (postUserId === followArr[j]) // if found, button is unfollow

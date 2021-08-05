@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS followers (
     FOREIGN KEY(follower_id) REFERENCES users(id),
     FOREIGN KEY(following_id) REFERENCES users(id),
     UNIQUE(follower_id, following_id)
-);
+);          
 
 INSERT INTO followers(follower_id, following_id) VALUES(1, 2);
 INSERT INTO followers(follower_id, following_id) VALUES(1, 3);

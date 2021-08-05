@@ -15,10 +15,10 @@ if (window.sessionStorage.getItem('user') !== null) {
 
 let timeline = await helper.getHomeTimeline(username)
 
-let followArr = await helper.getFollowing(loggedInUser.id)
+let followArr = await helper.getFollowing(loggedInUser)
 for (let i = 0; i < followArr.length; i++) {
     if (window.location.pathname.includes('/following.html')) {
-      let temp = await helper.getUser(followArr[i])
+      let temp = await helper.getUser(followArr[i].following_id)
       temp = temp.username
       const timelinePost = document.createElement('div')
       timelinePost.className = 'p-5 m-5 rounded-lg bg-black'

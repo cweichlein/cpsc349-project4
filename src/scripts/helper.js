@@ -1,10 +1,24 @@
 // Returns user object from an ID or username
-export async function getUser (key) {
-  const url = 'http://localhost:5000/users'
+export function getUser (key) {
+  let url = null
+  if(typeof key === 'number'){
+     url = 'http://localhost:5000/users/?id=' + key
+  }
+  else if(typeof key === 'string'){
+    url = 'http://localhost:5000/users/?username=' + key
+  }
+  else if(typeof key === 'object'){
+    console.log(key)
+  }
+
   return fetch(url)
     .then((response) => response.json())
     .then((data) => {
+      return data.resources[0]
+
+      //Old stuff; delete
       const users = data.resources
+      
       for (let i = 0; i < users.length; i++) {
         if (users[i].id == key || users[i].username == key) {
           return users[i]
@@ -15,12 +29,15 @@ export async function getUser (key) {
 }
 
 // Returns array of user IDs being followed
-export async function getFollowing (id) {
-  const url = 'http://localhost:5000/followers/'
+export function getFollowing (user) {
+  const url = 'http://localhost:5000/followers/?follower_id=' + user.id
   return fetch(url)
     .then((response) => response.json())
     .then((data) => {
-      const users = data.resources
+      return data.resources
+      
+      //Old stuff; delete
+      return users
       let followingList =[]
       for (let i = 0; i < users.length; i++) {
         if (users[i].follower_id == id) {
@@ -33,14 +50,25 @@ export async function getFollowing (id) {
 
 // Returns Home Timeline posts as an array
 // Help from: https://www.digitalocean.com/community/tutorials/how-to-use-the-javascript-fetch-api-to-get-data
-export async function getHomeTimeline (username) {
-  const url = 'http://localhost:5000/posts'
-  let user = await getUser(username)
-  let following = await getFollowing(user.id)
+export async function getHomeTimeline (user) {
+  let following = await getFollowing(user)
+  let timeline = []
+  
+  for(let i = 0; i < following.length; i++) {
+    let followedUser = await getUser(following[i].following_id)
+    let followedTimeline = await getUserTimeline(followedUser)
+
+    for(let j = 0; j < followedTimeline.length; j++){
+      timeline.push(followedTimeline[j])
+    }
+  }
+  return timeline
+
+  //Old GET request; delete
   return fetch(url)
     .then((response) => response.json())
     .then((data) => {
-      const timeline = []
+      
       const posts = data.resources
       for (let i = 0; i < posts.length; i++) {
         if (following.includes(posts[i].user_id)) {
@@ -52,18 +80,28 @@ export async function getHomeTimeline (username) {
 }
 
 // Returns User Timeline posts as an array
-export async function getUserTimeline (userId) {
-  const url = 'http://localhost:5000/posts'
-}
-
-// Returns the number of likes a post has
-export async function getLikes(postId){
-  const url = 'http://localhost:5000/likes'
+export async function getUserTimeline (user) {
+  const url = 'http://localhost:5000/posts/?user_id=' + user.id
+  
   return fetch(url)
     .then((response) => response.json())
     .then((data) => {
-      let likes = 0
+      return data.resources
+    })
+}
+
+// Returns the number of likes a post has
+export function getLikes(postId){
+  //const url = 'http://localhost:5000/likes'
+  const url = 'http://localhost:5000/likes/?post_id=' + postId
+  return fetch(url)
+    .then((response) => response.json())
+    .then((data) => {
+      return data.resources.length
+
+      //Old stuff' delete
       const likeList = data.resources
+      let likes = 0
       for (let i = 0; i < likeList.length; i++) {
         if (likeList[i].post_id == postId) {
           likes++
@@ -74,25 +112,32 @@ export async function getLikes(postId){
 }
 
 // Checks if user has liked a post
-export async function postLiked(postId, userId){
-  const url = 'http://localhost:5000/likes'
+export function postLiked(postId, userId){
+  const url = 'http://localhost:5000/likes/?user_id=' + userId + '&post_id=' + postId
   return fetch(url)
     .then((response) => response.json())
     .then((data) => {
       const likeList = data.resources
+
+      if(likeList.length>0){
+        return true
+      }
+      else{
+        return false
+      }
+
+      //Old stuff; delete
       for (let i = 0; i < likeList.length; i++) {
         if (likeList[i].post_id == postId && likeList[i].user_id == userId) {
-          console.log('returned true!')
           return true
         }
       }
-      console.log('returned false!')
       return false
     })
 }
 
 // Like a post
-export async function likePost(postId, userId){
+export function likePost(postId, userId){
   const url = 'http://localhost:5000/likes'
   let data = {
     user_id: userId,
@@ -113,6 +158,6 @@ export async function likePost(postId, userId){
 }
 
 // Unlike a post
-export async function unlikePost(postId, userId){
+export function unlikePost(postId, userId){
 
 }
