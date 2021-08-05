@@ -80,7 +80,7 @@ export async function getHomeTimeline (user) {
 }
 
 // Returns User Timeline posts as an array
-export async function getUserTimeline (user) {
+export  function getUserTimeline (user) {
   const url = 'http://localhost:5000/posts/?user_id=' + user.id
   
   return fetch(url)

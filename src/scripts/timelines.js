@@ -114,7 +114,6 @@ if (!window.location.pathname.includes('/about.html')) {
       // Follow/Unfollow
       let followArr = await helper.getFollowing(loggedInUser)
       let found = false
-      console.log(followArr)
       for (let j = 0; j < followArr.length; j++) {
         if (postUser.id === followArr[j].id) // if found, button is unfollow
         {
@@ -192,11 +191,16 @@ if (!window.location.pathname.includes('/following.html') && !window.location.pa
 }
 
 // Like/Unlike button functionality
+
 for(let i = 0; i < timeline.length; i++){
   let postId = timeline[i].id
   if(document.getElementById(postId +'-like-button') != null){
     let likeButton = document.getElementById(postId +'-like-button')
-    likeButton.onclick = async function () {await helper.likePost(loggedInUser.id, postId)}
+    likeButton.onclick = async function () {
+      await helper.likePost(loggedInUser.id, postId)
+      likeButton.outerHTML = "<div flex items-center'><button id=" + timeline[i].id + "-unlike-button class='rounded-lg p-1 bg-red-600 hover:bg-red-700 "
+      + "transition duration-300'>" + "&#128077; " + await helper.getLikes(timeline[i].id) + "</button></div>"
+    }
   }
   else{
     //document.getElementById(postId +'-unlike-button').onclick = async function () {await helper.unlikePost(loggedInUser.id, postId)}
