@@ -1,3 +1,5 @@
+import { data } from "autoprefixer"
+
 // Returns user object from an ID or username
 export function getUser (key) {
   let url = null
@@ -155,4 +157,26 @@ export function likePost(userId, postId){
 // Unlike a post
 export function unlikePost(postId, userId){
 
+// Registration
+export async function createUser (username, email, password) {
+  let url = 'http://localhost:5000/users'
+  
+  return fetch(url, {
+    method: 'POST',
+    body: JSON.stringify({
+      username: username,
+      email: email,
+      password: password
+    }),
+    headers: new Headers()
+  })
+  .then((response) => response.json())
+  .then((data) => {
+    console.log(data)
+    return data
+  })
+  .catch(error => {
+    console.log(error)
+    return null
+  })
 }
