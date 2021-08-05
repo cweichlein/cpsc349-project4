@@ -6,19 +6,22 @@ console.log('timeline.js called')
 // Determine what type of content to display
 
 let timeline = null
-let loggedInUser = window.sessionStorage.getItem('user')
-loggedInUser = JSON.parse(loggedInUser)
+let loggedInUser = null
 let username = null
-if (loggedInUser.username !== null) {
-  username = loggedInUser.username
-}
-
-if (document.getElementById('home_tl') === document.querySelector('.active')) {
-  timeline = await helper.getHomeTimeline(username)
-} else if (document.getElementById('user_tl') === document.querySelector('.active')) {
-  timeline = mockroblog.getUserTimeline(username) //todo
-} else if (document.getElementById('public_tl') === document.querySelector('.active')) {
-  timeline = mockroblog.getPublicTimeline()   //todo
+if (window.sessionStorage.getItem('user') !== null) {
+  loggedInUser = window.sessionStorage.getItem('user')
+  loggedInUser = JSON.parse(loggedInUser)
+  if (loggedInUser.username !== null) {
+    username = loggedInUser.username
+  }
+  
+  if (document.getElementById('home_tl') === document.querySelector('.active')) {
+    timeline = await helper.getHomeTimeline(username)
+  } else if (document.getElementById('user_tl') === document.querySelector('.active')) {
+    timeline = mockroblog.getUserTimeline(username) //todo
+  } else if (document.getElementById('public_tl') === document.querySelector('.active')) {
+    timeline = mockroblog.getPublicTimeline()   //todo
+  }
 }
 
 // Logged in as {username} on navbar
@@ -26,7 +29,7 @@ if (document.getElementById('home_tl') === document.querySelector('.active')) {
 const loginStatus = document.getElementsByClassName('login-status')
 
 for (let i = 0; i < loginStatus.length; i++) {
-  if (username !== null) {
+  if (loggedInUser !== null) {
     loginStatus[i].innerHTML = 'Logged in as @' + username
     loginStatus[i].classList.add('cursor-default')
   } else {
@@ -149,13 +152,13 @@ if (!window.location.pathname.includes('/following.html') && !window.location.pa
 function publishPost () {
   const newPostText = document.getElementById('new-post-text').value
   if (newPostText) {
-    const postData = mockroblog.postMessage(window.sessionStorage.getItem('uid'), newPostText)
+    const postData = mockroblog.postMessage(loggedInUser.id, newPostText)
     document.getElementById('new-post-text').value = ''
 
     const newPostDiv = document.createElement('div')
     newPostDiv.className = 'p-5 m-5 rounded-lg bg-black'
     newPostDiv.innerHTML += "<div class='flex flex-row text-center items-center justify-between mb-2'>" +
-    '<p>' + window.sessionStorage.getItem('username') + '</p></div><hr>'
+    '<p>' + username + '</p></div><hr>'
     newPostDiv.innerHTML += "<div class='post-text m-2'>" + postData.text + '</div>'
     newPostDiv.innerHTML += "<hr><p class='mt-2'>" + postData.timestamp + '</p>'
 
