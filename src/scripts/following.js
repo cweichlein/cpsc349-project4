@@ -3,11 +3,14 @@ import * as mockroblog from './mockroblog.js'
 
 console.log('following.js called')
 
-let loggedInUser = window.sessionStorage.getItem('user')
-loggedInUser = JSON.parse(loggedInUser)
+let loggedInUser = null
 let username = null
-if (loggedInUser.username !== null) {
-  username = loggedInUser.username
+if (window.sessionStorage.getItem('user') !== null) {
+  loggedInUser = window.sessionStorage.getItem('user')
+  loggedInUser = JSON.parse(loggedInUser)
+  if (loggedInUser.username !== null) {
+    username = loggedInUser.username
+  }
 }
 
 let timeline = await helper.getHomeTimeline(username)
