@@ -6,16 +6,14 @@ module.exports = {
     clean: true
   },
   experiments: {
-  
     topLevelAwait: true
-    
   },
   entry: {
     index: path.resolve(__dirname, 'src/scripts/index.js'),
     tailwind: path.resolve(__dirname, 'src/styles/tailwind.css'),
-    authentication: path.resolve(__dirname, 'src/old_scripts/authentication.js'),
-    following: path.resolve(__dirname, 'src/old_scripts/following.js'),
-    timelines: path.resolve(__dirname, 'src/scripts/timeline.js')
+    authentication: path.resolve(__dirname, 'src/scripts/authentication.js'),
+    following: path.resolve(__dirname, 'src/scripts/following.js'),
+    timelines: path.resolve(__dirname, 'src/scripts/timelines.js')
   },
   plugins: [
     new HtmlWebpackPlugin({
