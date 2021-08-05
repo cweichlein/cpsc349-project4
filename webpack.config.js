@@ -11,16 +11,10 @@ module.exports = {
   entry: {
     index: path.resolve(__dirname, 'src/scripts/index.js'),
     tailwind: path.resolve(__dirname, 'src/styles/tailwind.css'),
-<<<<<<< Updated upstream
     authentication: path.resolve(__dirname, 'src/scripts/authentication.js'),
     following: path.resolve(__dirname, 'src/scripts/following.js'),
-    timelines: path.resolve(__dirname, 'src/scripts/timelines.js')
-=======
-    authentication: path.resolve(__dirname, 'src/old_scripts/authentication.js'),
-    following: path.resolve(__dirname, 'src/old_scripts/following.js'),
-    timelines: path.resolve(__dirname, 'src/scripts/timeline.js'),
+    timelines: path.resolve(__dirname, 'src/scripts/timelines.js'),
     dms: path.resolve(__dirname, 'src/scripts/direct_messages.js')
->>>>>>> Stashed changes
   },
   plugins: [
     new HtmlWebpackPlugin({
