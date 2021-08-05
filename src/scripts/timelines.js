@@ -3,7 +3,7 @@ import * as mockroblog from './mockroblog.js'
 
 console.log('timeline.js called')
 
-// Determine what type of content to display
+// Instantiate login session info and determine what type of content to display
 
 let timeline = null
 let loggedInUser = null
@@ -16,7 +16,7 @@ if (window.sessionStorage.getItem('user') !== null) {
   }
   
   if (document.getElementById('home_tl') === document.querySelector('.active')) {
-    timeline = await helper.getHomeTimeline(username)
+    timeline = await helper.getHomeTimeline(loggedInUser)
   } else if (document.getElementById('user_tl') === document.querySelector('.active')) {
     timeline = mockroblog.getUserTimeline(username) //todo
   } else if (document.getElementById('public_tl') === document.querySelector('.active')) {
@@ -92,22 +92,31 @@ if (!window.location.pathname.includes('/about.html')) {
         followOrUnfollowButton = "<button class='" + postUsername + '-follow-or-unfollow-button ' +
         "rounded-lg p-1 bg-indigo-500 hover:bg-purple-700 transition duration-300'></button>"
       }
+
+      let likeOrUnlikeButton = null
+      if(await helper.postLiked(timeline[i].id, loggedInUser.id)){
+        likeOrUnlikeButton = "<button class = 'rounded-lg p-1 bg-red-600 hover:bg-red-700 transition duration-300'>Unike</button>" 
+        + "<div class = 'post-" + timeline[i].id + "-likes float-right'>&#128077;" + await helper.getLikes(timeline[i].id)
+      }
+      else{
+        likeOrUnlikeButton = "<button class = 'rounded-lg p-1 bg-green-600 hover:bg-green-700 transition duration-300'>Like</button>" 
+        + "<div class = 'post-" + timeline[i].id + "-likes float-right'>&#128077;" + await helper.getLikes(timeline[i].id)
+      }
+
       const timelinePost = document.createElement('div')
       timelinePost.className = 'p-5 m-5 rounded-lg bg-black'
       timelinePost.innerHTML += "<div class='flex flex-row text-center items-center justify-between mb-2'>" +
       '<p>' + postUsername + '</p>' + followOrUnfollowButton + '</div><hr>'
       timelinePost.innerHTML += "<div class='post-text m-2 break-words'>" + timeline[i].text + '</div>'
       timelinePost.innerHTML += "<hr><p class='mt-2'>" + timeline[i].timestamp + '</p>'
+      timelinePost.innerHTML += likeOrUnlikeButton
 
       document.getElementById('timeline').append(timelinePost)
 
       // Follow/Unfollow
-      console.log(loggedInUser.id)
-      let followArr = await helper.getFollowing(loggedInUser.id)
-      console.log(followArr)
+      let followArr = await helper.getFollowing(loggedInUser)
       let found = false
       for (let j = 0; j < followArr.length; j++) {
-        console.log(username + ', ' + followArr[j])
         if (postUserId === followArr[j]) // if found, button is unfollow
         {
           found = true
