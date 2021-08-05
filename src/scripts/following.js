@@ -16,7 +16,6 @@ if (window.sessionStorage.getItem('user') !== null) {
 let timeline = await helper.getHomeTimeline(username)
 
 let followArr = await helper.getFollowing(loggedInUser.id)
-console.log(followArr)
 for (let i = 0; i < followArr.length; i++) {
     if (window.location.pathname.includes('/following.html')) {
       let temp = await helper.getUser(followArr[i])

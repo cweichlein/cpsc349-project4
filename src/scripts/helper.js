@@ -51,3 +51,22 @@ export async function getHomeTimeline (username) {
       return timeline
     })
 }
+
+// Returns the number of likes a post has
+export async function getLikes(postId){
+  let url = 'http://localhost:5000/likes'
+  
+  return fetch(url)
+    .then((response) => response.json())
+    .then((data) => {
+      let likes = 0
+      const likeList = data.resources
+      console.log(likeList)
+      for (let i = 0; i < likeList.length; i++) {
+        if (likeList[i].post_id == postId) {
+          likes++
+        }
+      }
+      return likes
+    })
+}

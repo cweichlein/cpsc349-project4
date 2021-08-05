@@ -98,16 +98,15 @@ if (!window.location.pathname.includes('/about.html')) {
       '<p>' + postUsername + '</p>' + followOrUnfollowButton + '</div><hr>'
       timelinePost.innerHTML += "<div class='post-text m-2 break-words'>" + timeline[i].text + '</div>'
       timelinePost.innerHTML += "<hr><p class='mt-2'>" + timeline[i].timestamp + '</p>'
+      timelinePost.innerHTML += "<button class = 'rounded-lg p-1 bg-indigo-500 hover:bg-purple-700 transition duration-300'>Like</button>" 
+      + await helper.getLikes(timeline[i].id)
 
       document.getElementById('timeline').append(timelinePost)
 
       // Follow/Unfollow
-      console.log(loggedInUser.id)
       let followArr = await helper.getFollowing(loggedInUser.id)
-      console.log(followArr)
       let found = false
       for (let j = 0; j < followArr.length; j++) {
-        console.log(username + ', ' + followArr[j])
         if (postUserId === followArr[j]) // if found, button is unfollow
         {
           found = true
