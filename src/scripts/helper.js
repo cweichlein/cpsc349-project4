@@ -30,7 +30,7 @@ export function getUser (key) {
     })
 }
 
-// Returns array of user IDs being followed
+// Returns an array of user IDs being followed
 export function getFollowing (user) {
   const url = 'http://localhost:5000/followers/?follower_id=' + user.id
   return fetch(url)
@@ -146,6 +146,7 @@ export function likePost(userId, postId){
       body: JSON.stringify(data),
       headers: new Headers()
   });
+  console.log('User', userId, 'liked post', postId)
   return fetch(request)
 }
 
