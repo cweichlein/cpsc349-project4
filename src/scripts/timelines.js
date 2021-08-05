@@ -92,13 +92,15 @@ if (!window.location.pathname.includes('/about.html')) {
         "rounded-lg p-1 bg-indigo-500 hover:bg-purple-700 transition duration-300'></button>"
       }
 
+
+      // HTML for Like/Unlike button
       let likeOrUnlikeButton = null
       if (await helper.postLiked(timeline[i].id, loggedInUser.id)) {
-        likeOrUnlikeButton = "<div flex items-center'><button id=" + timeline[i].id + "-unlike-button class='rounded-lg p-1 bg-red-600 hover:bg-red-700 "
-        + "transition duration-300'>" + "&#128077; " + await helper.getLikes(timeline[i].id) + "</button></div>"
+        likeOrUnlikeButton = "<button id=" + timeline[i].id + "-unlike-button class='flex items-center rounded-lg p-1 bg-red-600 hover:bg-red-700 "
+        + "transition duration-300'>" + "&#128077; " + await helper.getLikes(timeline[i].id) + "</button>"
       } else { 
-        likeOrUnlikeButton = "<div class='flex items-center'><button id=" + timeline[i].id + "-like-button class='like-button rounded-lg p-1 bg-green-600 hover:bg-green-700 "
-        + "transition duration-300'>" + "&#128077; " + await helper.getLikes(timeline[i].id) + "</button></div>"
+        likeOrUnlikeButton = "<button id=" + timeline[i].id + "-like-button class='flex items-center rounded-lg p-1 bg-green-600 hover:bg-green-700 "
+        + "transition duration-300'>" + "&#128077; " + await helper.getLikes(timeline[i].id) + "</button>"
       }
 
       const timelinePost = document.createElement('div')
@@ -198,8 +200,8 @@ for(let i = 0; i < timeline.length; i++){
     let likeButton = document.getElementById(postId +'-like-button')
     likeButton.onclick = async function () {
       await helper.likePost(loggedInUser.id, postId)
-      likeButton.outerHTML = "<div flex items-center'><button id=" + timeline[i].id + "-unlike-button class='rounded-lg p-1 bg-red-600 hover:bg-red-700 "
-      + "transition duration-300'>" + "&#128077; " + await helper.getLikes(timeline[i].id) + "</button></div>"
+      likeButton.outerHTML = "<button id=" + timeline[i].id + "-unlike-button class='flex items-center rounded-lg p-1 bg-red-600 hover:bg-red-700 "
+      + "transition duration-300'>" + "&#128077; " + await helper.getLikes(timeline[i].id) + "</button>"
     }
   }
   else{
