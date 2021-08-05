@@ -6,8 +6,12 @@ console.log('timeline.js called')
 // Determine what type of content to display
 
 let timeline = null
-const username = window.sessionStorage.getItem('username')
-const loggedInUser = await helper.getUser(username)
+let loggedInUser = window.sessionStorage.getItem('user')
+loggedInUser = JSON.parse(loggedInUser)
+let username = null
+if (loggedInUser.username !== null) {
+  username = loggedInUser.username
+}
 
 if (document.getElementById('home_tl') === document.querySelector('.active')) {
   timeline = await helper.getHomeTimeline(username)
@@ -45,7 +49,7 @@ document.getElementById('mobile-logout-button').onclick = function () { logout()
 // Redirect to login page if not logged in
 
 if (!window.location.pathname.includes('/about.html')) {
-  if (!window.sessionStorage.getItem('username')) {
+  if (username === null) {
     window.location.href = './'
     window.sessionStorage.setItem('login-error', 'Error: You must log in first!')
   }
@@ -95,8 +99,7 @@ if (!window.location.pathname.includes('/about.html')) {
       document.getElementById('timeline').append(timelinePost)
 
       // Follow/Unfollow
-      // let followArr = window.sessionStorage.getItem('follow-arr')
-      // followArr = JSON.parse(followArr)
+      console.log(loggedInUser.id)
       let followArr = await helper.getFollowing(loggedInUser.id)
       console.log(followArr)
       let found = false

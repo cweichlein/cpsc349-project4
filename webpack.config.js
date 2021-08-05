@@ -26,19 +26,19 @@ module.exports = {
       filename: 'home_timeline.html',
       template: path.resolve(__dirname, 'src/home_timeline.html'),
       inject: true,
-      chunks: ['following', 'timelines', 'tailwind']
+      chunks: ['timelines', 'tailwind']
     }),
     new HtmlWebpackPlugin({
       filename: 'public_timeline.html',
       template: path.resolve(__dirname, 'src/public_timeline.html'),
       inject: true,
-      chunks: ['following', 'timelines', 'tailwind']
+      chunks: ['timelines', 'tailwind']
     }),
     new HtmlWebpackPlugin({
       filename: 'user_timeline.html',
       template: path.resolve(__dirname, 'src/user_timeline.html'),
       inject: true,
-      chunks: ['following', 'timelines', 'tailwind']
+      chunks: ['timelines', 'tailwind']
     }),
     new HtmlWebpackPlugin({
       filename: 'following.html',

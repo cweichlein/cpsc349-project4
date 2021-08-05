@@ -15,8 +15,7 @@ function login () {
   const userInfo = mockroblog.authenticateUser(usernameInput, passwordInput) // todo
   checkForLoginValidation(usernameInput, passwordInput, userInfo)
   if (userInfo) {
-    loginSession.setItem('id', userInfo.id)
-    loginSession.setItem('username', userInfo.username)
+    loginSession.setItem('user', JSON.stringify(userInfo))
     window.location.href = 'home_timeline.html'
   }
 }
@@ -63,8 +62,7 @@ function register () {
   const confirmPasswordInput = document.getElementById('registration-confirm-password').value
   const userInfo = mockroblog.createUser(usernameInput, emailInput, passwordInput) // todo
   if (checkForRegistrationValidation(usernameInput, emailInput, passwordInput, confirmPasswordInput, userInfo)) {
-    loginSession.setItem('uid', userInfo.id)
-    loginSession.setItem('username', userInfo.username)
+    loginSession.setItem('user', JSON.stringify(userInfo))
     window.location.href = 'public_timeline.html'
   }
 }
