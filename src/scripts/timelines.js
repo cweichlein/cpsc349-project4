@@ -114,9 +114,10 @@ if (!window.location.pathname.includes('/about.html')) {
       // Follow/Unfollow
       let followArr = await helper.getFollowing(loggedInUser)
       let found = false
+      console.log(followArr)
       for (let j = 0; j < followArr.length; j++) {
-        console.log(postUser.id, followArr[j].id)
-        if (postUser.id === followArr[j].id) // if found, button is unfollow
+        console.log(postUser.id, followArr[j].following_id)
+        if (postUser.id === followArr[j].following_id) // if found, button is unfollow
         {
           found = true
           const buttonArr = document.getElementsByClassName(postUsername + '-follow-or-unfollow-button')
