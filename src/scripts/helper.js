@@ -61,7 +61,6 @@ export async function getLikes(postId){
     .then((data) => {
       let likes = 0
       const likeList = data.resources
-      console.log(likeList)
       for (let i = 0; i < likeList.length; i++) {
         if (likeList[i].post_id == postId) {
           likes++
@@ -69,4 +68,33 @@ export async function getLikes(postId){
       }
       return likes
     })
+}
+
+// Checks if user has liked a post
+export async function postLiked(postId, userId){
+  let url = 'http://localhost:5000/likes'
+  
+  return fetch(url)
+    .then((response) => response.json())
+    .then((data) => {
+      const likeList = data.resources
+      for (let i = 0; i < likeList.length; i++) {
+        if (likeList[i].post_id == postId && likeList[i].user_id == userId) {
+          console.log('returned true!')
+          return true
+        }
+      }
+      console.log('returned false!')
+      return false
+    })
+}
+
+// Like a post
+export async function likePost(postId, userId){
+
+}
+
+// Unlike a post
+export async function unlikePost(postId, userId){
+
 }
