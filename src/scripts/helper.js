@@ -2,12 +2,13 @@
 export function getUser (key) {
   let url = null
   if(typeof key === 'number'){
-     url = 'http://localhost:5000/users/?id=' + key
+    url = 'http://localhost:5000/users/?id=' + key
   }
   else if(typeof key === 'string'){
     url = 'http://localhost:5000/users/?username=' + key
   }
   else if(typeof key === 'object'){
+    console.log('Error!')
     console.log(key)
   }
 
@@ -137,24 +138,18 @@ export function postLiked(postId, userId){
 }
 
 // Like a post
-export function likePost(postId, userId){
+export function likePost(userId, postId){
   const url = 'http://localhost:5000/likes'
   let data = {
     user_id: userId,
     post_id: postId
   }
-  
-  var request = new Request(url, {
+  let request = new Request(url, {
       method: 'POST',
-      body: data,
+      body: JSON.stringify(data),
       headers: new Headers()
   });
-
   return fetch(request)
-    .then(function() {
-    // Handle response we get from the API
-
-  })
 }
 
 // Unlike a post
