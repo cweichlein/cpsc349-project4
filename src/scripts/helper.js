@@ -1,5 +1,5 @@
 // Returns user object from an ID or username
-export function getUser (key) {
+export async function getUser (key) {
   const url = 'http://localhost:5000/users'
   return fetch(url)
     .then((response) => response.json())
@@ -15,7 +15,7 @@ export function getUser (key) {
 }
 
 // Returns array of user IDs being followed
-export function getFollowing (id) {
+export async function getFollowing (id) {
   const url = 'http://localhost:5000/followers/'
   return fetch(url)
     .then((response) => response.json())
@@ -34,10 +34,9 @@ export function getFollowing (id) {
 // Returns Home Timeline posts as an array
 // Help from: https://www.digitalocean.com/community/tutorials/how-to-use-the-javascript-fetch-api-to-get-data
 export async function getHomeTimeline (username) {
-  let url = 'http://localhost:5000/posts'
+  const url = 'http://localhost:5000/posts'
   let user = await getUser(username)
   let following = await getFollowing(user.id)
-  
   return fetch(url)
     .then((response) => response.json())
     .then((data) => {
@@ -52,10 +51,14 @@ export async function getHomeTimeline (username) {
     })
 }
 
+// Returns User Timeline posts as an array
+export async function getUserTimeline (userId) {
+  const url = 'http://localhost:5000/posts'
+}
+
 // Returns the number of likes a post has
 export async function getLikes(postId){
-  let url = 'http://localhost:5000/likes'
-  
+  const url = 'http://localhost:5000/likes'
   return fetch(url)
     .then((response) => response.json())
     .then((data) => {
@@ -72,8 +75,7 @@ export async function getLikes(postId){
 
 // Checks if user has liked a post
 export async function postLiked(postId, userId){
-  let url = 'http://localhost:5000/likes'
-  
+  const url = 'http://localhost:5000/likes'
   return fetch(url)
     .then((response) => response.json())
     .then((data) => {
@@ -91,7 +93,23 @@ export async function postLiked(postId, userId){
 
 // Like a post
 export async function likePost(postId, userId){
+  const url = 'http://localhost:5000/likes'
+  let data = {
+    user_id: userId,
+    post_id: postId
+  }
+  
+  var request = new Request(url, {
+      method: 'POST',
+      body: data,
+      headers: new Headers()
+  });
 
+  return fetch(request)
+    .then(function() {
+    // Handle response we get from the API
+
+  })
 }
 
 // Unlike a post
