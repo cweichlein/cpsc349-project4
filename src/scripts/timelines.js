@@ -114,6 +114,7 @@ if (!window.location.pathname.includes('/about.html')) {
       // Follow/Unfollow
       let followArr = await helper.getFollowing(loggedInUser)
       let found = false
+      console.log(followArr)
       for (let j = 0; j < followArr.length; j++) {
         if (postUser.id === followArr[j].id) // if found, button is unfollow
         {
@@ -156,21 +157,33 @@ if (!window.location.pathname.includes('/following.html') && !window.location.pa
 
 // Post button functionality
 
-function publishPost () {
-  const newPostText = document.getElementById('new-post-text').value
+async function publishPost () {
+  let newPostText = document.getElementById('new-post-text').value
   if (newPostText) {
-    const postData = mockroblog.postMessage(loggedInUser.id, newPostText)
+    console.log(loggedInUser.id, newPostText)
+    let postData = await helper.postMessage(loggedInUser.id, newPostText)
+    console.log(postData)
     document.getElementById('new-post-text').value = ''
+
+    let likeOrUnlikeButton = null
+      if (await helper.postLiked(postData.id, loggedInUser.id)) {
+        likeOrUnlikeButton = "<div class='flex items-center'><button class='rounded-lg p-1 bg-red-600 hover:bg-red-700 "
+        + "transition duration-300'>" + "&#128077; " + await helper.getLikes(postData.id) + "</button>" 
+      } else { 
+        likeOrUnlikeButton = "<div class='flex items-center'><button class='rounded-lg p-1 bg-green-600 hover:bg-green-700 "
+        + "transition duration-300'>" + "&#128077; " + await helper.getLikes(postData.id) + "</button>" 
+      }
 
     const newPostDiv = document.createElement('div')
     newPostDiv.className = 'p-5 m-5 rounded-lg bg-black'
     newPostDiv.innerHTML += "<div class='flex flex-row text-center items-center justify-between mb-2'>" +
     '<p>' + username + '</p></div><hr>'
     newPostDiv.innerHTML += "<div class='post-text m-2'>" + postData.text + '</div>'
-    newPostDiv.innerHTML += "<hr><p class='mt-2'>" + postData.timestamp + '</p>'
+    newPostDiv.innerHTML += "<hr><div class='flex items-center text-center mt-2 justify-between'><p>"
+      + postData.timestamp + "</p>" + likeOrUnlikeButton + "<div>"
 
     document.getElementById('new-post-area').after(newPostDiv)
-    newPostArea.classList.toggle('hidden')
+    document.getElementById('new-post-area').classList.toggle('hidden')
   }
 }
 

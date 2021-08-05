@@ -177,3 +177,27 @@ export async function createUser (username, email, password) {
     return null
   })
 }
+
+// New post
+
+export async function postMessage (userId, newPostText) {
+  let url = 'http://localhost:5000/posts/'
+
+  return fetch(url, {
+    method: 'POST',
+    body: JSON.stringify({
+      user_id: userId,
+      text: newPostText
+    }),
+    headers: new Headers()
+  })
+  .then((response) => response.json())
+  .then((data) => {
+    console.log(data)
+    return data
+  })
+  .catch(error => {
+    console.log(error)
+    return null
+  })
+}
