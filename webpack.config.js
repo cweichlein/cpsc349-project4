@@ -13,7 +13,7 @@ module.exports = {
     tailwind: path.resolve(__dirname, 'src/styles/tailwind.css'),
     authentication: path.resolve(__dirname, 'src/scripts/authentication.js'),
     following: path.resolve(__dirname, 'src/scripts/following.js'),
-    timelines: path.resolve(__dirname, 'src/scripts/timeline.js')
+    timelines: path.resolve(__dirname, 'src/scripts/timelines.js')
   },
   plugins: [
     new HtmlWebpackPlugin({

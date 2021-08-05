@@ -7,6 +7,7 @@ console.log('timeline.js called')
 
 let timeline = null
 const username = window.sessionStorage.getItem('username')
+const loggedInUser = await helper.getUser(username)
 
 if (document.getElementById('home_tl') === document.querySelector('.active')) {
   timeline = await helper.getHomeTimeline(username)
@@ -76,31 +77,35 @@ if (!window.location.pathname.includes('/about.html')) {
   if (timeline !== null) {
     for (let i = 0; i < timeline.length; i++) {
       let user = await helper.getUser(timeline[i].user_id)
-      let userId = user.username
+      let postUsername = user.username
+      let postUserId = user.id
 
       let followOrUnfollowButton = ''
-      if (userId !== window.sessionStorage.getItem('username')) {
-        followOrUnfollowButton = "<button class='" + userId + '-follow-or-unfollow-button ' +
+      if (postUsername !== username) {
+        followOrUnfollowButton = "<button class='" + postUsername + '-follow-or-unfollow-button ' +
         "rounded-lg p-1 bg-indigo-500 hover:bg-purple-700 transition duration-300'></button>"
       }
       const timelinePost = document.createElement('div')
       timelinePost.className = 'p-5 m-5 rounded-lg bg-black'
       timelinePost.innerHTML += "<div class='flex flex-row text-center items-center justify-between mb-2'>" +
-      '<p>' + userId + '</p>' + followOrUnfollowButton + '</div><hr>'
+      '<p>' + postUsername + '</p>' + followOrUnfollowButton + '</div><hr>'
       timelinePost.innerHTML += "<div class='post-text m-2 break-words'>" + timeline[i].text + '</div>'
       timelinePost.innerHTML += "<hr><p class='mt-2'>" + timeline[i].timestamp + '</p>'
 
       document.getElementById('timeline').append(timelinePost)
 
       // Follow/Unfollow
-      let followArr = window.sessionStorage.getItem('follow-arr')
-      followArr = JSON.parse(followArr)
+      // let followArr = window.sessionStorage.getItem('follow-arr')
+      // followArr = JSON.parse(followArr)
+      let followArr = await helper.getFollowing(loggedInUser.id)
+      console.log(followArr)
       let found = false
       for (let j = 0; j < followArr.length; j++) {
-        if (userId === followArr[j]) // if found, button is unfollow
+        console.log(username + ', ' + followArr[j])
+        if (postUserId === followArr[j]) // if found, button is unfollow
         {
           found = true
-          const buttonArr = document.getElementsByClassName(userId + '-follow-or-unfollow-button')
+          const buttonArr = document.getElementsByClassName(postUsername + '-follow-or-unfollow-button')
           for (let k = 0; k < buttonArr.length; k++) {
             buttonArr[k].innerHTML = 'Unfollow'
             buttonArr[k].addEventListener('click', () => {
@@ -112,7 +117,7 @@ if (!window.location.pathname.includes('/about.html')) {
       }
       if (!found) // if not found, button is follow
       {
-        const buttonArr = document.getElementsByClassName(userId + '-follow-or-unfollow-button')
+        const buttonArr = document.getElementsByClassName(postUsername + '-follow-or-unfollow-button')
         for (let l = 0; l < buttonArr.length; l++) {
           buttonArr[l].innerHTML = 'Follow'
           buttonArr[l].addEventListener('click', () => {
