@@ -14,8 +14,8 @@ if (window.sessionStorage.getItem('user') !== null) {
 }
 
 let timeline = await helper.getHomeTimeline(username)
-
 let followArr = await helper.getFollowing(loggedInUser)
+
 for (let i = 0; i < followArr.length; i++) {
     if (window.location.pathname.includes('/following.html')) {
       let temp = await helper.getUser(followArr[i].following_id)
@@ -31,7 +31,7 @@ for (let i = 0; i < followArr.length; i++) {
       const buttonArr = document.getElementsByClassName(temp + '-follow-button')
       for (let k = 0; k < buttonArr.length; k++) {
         buttonArr[k].addEventListener('click', () => {
-          mockroblog.removeFollower(window.sessionStorage.getItem('uid'), timeline[i].user_id)
+          mockroblog.removeFollower(loggedInUser.id, followArr[i].user_id)
           buttonArr[k].innerHTML = 'Follow'
       })
     }

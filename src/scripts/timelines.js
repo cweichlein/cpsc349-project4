@@ -83,9 +83,8 @@ mobileBtn.addEventListener('click', () => {
 if (!window.location.pathname.includes('/about.html')) {
   if (timeline !== null) {
     for (let i = 0; i < timeline.length; i++) {
-      let user = await helper.getUser(timeline[i].user_id)
-      let postUsername = user.username
-      let postUserId = user.id
+      let postUser = await helper.getUser(timeline[i].user_id)
+      let postUsername = postUser.username
 
       let followOrUnfollowButton = ''
       if (postUsername !== username) {
@@ -94,22 +93,21 @@ if (!window.location.pathname.includes('/about.html')) {
       }
 
       let likeOrUnlikeButton = null
-      if(await helper.postLiked(timeline[i].id, loggedInUser.id)){
-        likeOrUnlikeButton = "<button class = 'rounded-lg p-1 bg-red-600 hover:bg-red-700 transition duration-300'>Unike</button>" 
-        + "<div class = 'post-" + timeline[i].id + "-likes float-right'>&#128077;" + await helper.getLikes(timeline[i].id)
-      }
-      else{
-        likeOrUnlikeButton = "<button class = 'rounded-lg p-1 bg-green-600 hover:bg-green-700 transition duration-300'>Like</button>" 
-        + "<div class = 'post-" + timeline[i].id + "-likes float-right'>&#128077;" + await helper.getLikes(timeline[i].id)
+      if (await helper.postLiked(timeline[i].id, loggedInUser.id)) {
+        likeOrUnlikeButton = "<div class='flex items-center'><button class='rounded-lg p-1 bg-red-600 hover:bg-red-700 "
+        + "transition duration-300'>" + "&#128077; " + await helper.getLikes(timeline[i].id) + "</button>" 
+      } else { 
+        likeOrUnlikeButton = "<div class='flex items-center'><button class='rounded-lg p-1 bg-green-600 hover:bg-green-700 "
+        + "transition duration-300'>" + "&#128077; " + await helper.getLikes(timeline[i].id) + "</button>" 
       }
 
       const timelinePost = document.createElement('div')
-      timelinePost.className = 'p-5 m-5 rounded-lg bg-black'
+      timelinePost.className = "p-5 m-5 rounded-lg bg-black"
       timelinePost.innerHTML += "<div class='flex flex-row text-center items-center justify-between mb-2'>" +
-      '<p>' + postUsername + '</p>' + followOrUnfollowButton + '</div><hr>'
-      timelinePost.innerHTML += "<div class='post-text m-2 break-words'>" + timeline[i].text + '</div>'
-      timelinePost.innerHTML += "<hr><p class='mt-2'>" + timeline[i].timestamp + '</p>'
-      timelinePost.innerHTML += likeOrUnlikeButton
+      "<p>" + postUsername + "</p>" + followOrUnfollowButton + "</div><hr>"
+      timelinePost.innerHTML += "<div class='post-text m-2 break-words'>" + timeline[i].text + "</div>"
+      timelinePost.innerHTML += "<hr><div class='flex items-center text-center mt-2 justify-between'><p>"
+      + timeline[i].timestamp + "</p>" + likeOrUnlikeButton + "<div>"
 
       document.getElementById('timeline').append(timelinePost)
 
@@ -117,7 +115,8 @@ if (!window.location.pathname.includes('/about.html')) {
       let followArr = await helper.getFollowing(loggedInUser)
       let found = false
       for (let j = 0; j < followArr.length; j++) {
-        if (postUserId === followArr[j]) // if found, button is unfollow
+        console.log(postUser.id, followArr[j].id)
+        if (postUser.id === followArr[j].id) // if found, button is unfollow
         {
           found = true
           const buttonArr = document.getElementsByClassName(postUsername + '-follow-or-unfollow-button')

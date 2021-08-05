@@ -6,10 +6,10 @@ export function getUser (key) {
   if(typeof key === 'number'){
     url = 'http://localhost:5000/users/?id=' + key
   }
-  else if(typeof key === 'string'){
+  else if (typeof key === 'string'){
     url = 'http://localhost:5000/users/?username=' + key
   }
-  else if(typeof key === 'object'){
+  else if (typeof key === 'object') {
     console.log('Error!')
     console.log(key)
   }
@@ -18,16 +18,15 @@ export function getUser (key) {
     .then((response) => response.json())
     .then((data) => {
       return data.resources[0]
-
       //Old stuff; delete
-      const users = data.resources
+      // const users = data.resources
       
-      for (let i = 0; i < users.length; i++) {
-        if (users[i].id == key || users[i].username == key) {
-          return users[i]
-        }
-      }
-      return null
+      // for (let i = 0; i < users.length; i++) {
+      //   if (users[i].id == key || users[i].username == key) {
+      //     return users[i]
+      //   }
+      // }
+      // return null
     })
 }
 
@@ -38,16 +37,15 @@ export function getFollowing (user) {
     .then((response) => response.json())
     .then((data) => {
       return data.resources
-      
       //Old stuff; delete
-      return users
-      let followingList =[]
-      for (let i = 0; i < users.length; i++) {
-        if (users[i].follower_id == id) {
-          followingList.push(users[i].following_id)
-        }
-      }
-      return followingList
+      // return users
+      // let followingList =[]
+      // for (let i = 0; i < users.length; i++) {
+      //   if (users[i].follower_id == id) {
+      //     followingList.push(users[i].following_id)
+      //   }
+      // }
+      // return followingList
     })
 }
 
@@ -66,20 +64,19 @@ export async function getHomeTimeline (user) {
     }
   }
   return timeline
-
   //Old GET request; delete
-  return fetch(url)
-    .then((response) => response.json())
-    .then((data) => {
+  // return fetch(url)
+  //   .then((response) => response.json())
+  //   .then((data) => {
       
-      const posts = data.resources
-      for (let i = 0; i < posts.length; i++) {
-        if (following.includes(posts[i].user_id)) {
-          timeline.push(posts[i])
-        }
-      }
-      return timeline
-    })
+  //     const posts = data.resources
+  //     for (let i = 0; i < posts.length; i++) {
+  //       if (following.includes(posts[i].user_id)) {
+  //         timeline.push(posts[i])
+  //       }
+  //     }
+  //     return timeline
+    // })
 }
 
 // Returns User Timeline posts as an array
@@ -101,16 +98,15 @@ export function getLikes(postId){
     .then((response) => response.json())
     .then((data) => {
       return data.resources.length
-
       //Old stuff' delete
-      const likeList = data.resources
-      let likes = 0
-      for (let i = 0; i < likeList.length; i++) {
-        if (likeList[i].post_id == postId) {
-          likes++
-        }
-      }
-      return likes
+      // const likeList = data.resources
+      // let likes = 0
+      // for (let i = 0; i < likeList.length; i++) {
+      //   if (likeList[i].post_id == postId) {
+      //     likes++
+      //   }
+      // }
+      // return likes
     })
 }
 
@@ -128,14 +124,13 @@ export function postLiked(postId, userId){
       else{
         return false
       }
-
-      //Old stuff; delete
-      for (let i = 0; i < likeList.length; i++) {
-        if (likeList[i].post_id == postId && likeList[i].user_id == userId) {
-          return true
-        }
-      }
-      return false
+      // //Old stuff; delete
+      // for (let i = 0; i < likeList.length; i++) {
+      //   if (likeList[i].post_id == postId && likeList[i].user_id == userId) {
+      //     return true
+      //   }
+      // }
+      // return false
     })
 }
 
@@ -155,7 +150,8 @@ export function likePost(userId, postId){
 }
 
 // Unlike a post
-export function unlikePost(postId, userId){
+// export function unlikePost(postId, userId) {
+// }
 
 // Registration
 export async function createUser (username, email, password) {
