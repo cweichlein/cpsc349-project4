@@ -15,7 +15,7 @@ function login () {
   const userInfo = mockroblog.authenticateUser(usernameInput, passwordInput) // todo
   checkForLoginValidation(usernameInput, passwordInput, userInfo)
   if (userInfo) {
-    loginSession.setItem('uid', userInfo.id)
+    loginSession.setItem('id', userInfo.id)
     loginSession.setItem('username', userInfo.username)
     window.location.href = 'home_timeline.html'
   }
