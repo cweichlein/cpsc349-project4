@@ -8,10 +8,25 @@
         <!-- <script type="module" src="scripts/init.js"></script> -->
     </head>
     <body class="grid grid-cols-4 gap-5 bg-indigo-900 text-white">
-        <!-- Header -->
-        <header class="flex col-start-2 col-end-4 text-center items-center justify-center my-16">
-            <h2 class="text-center text-5xl text-white">Stoopneggle</h2>
+        <!-- Header and Mobile Menu Button -->
+        <header class="flex space-x-2 col-span-4 lg:col-start-2 lg:col-end-4 text-center items-center justify-center m-8 lg:my-16">
+            <h1 class="text-center text-4xl lg:text-5xl p-0 text-white">Stoopneggle</h2>
+            <button id="mobile-menu-button" class="lg:hidden">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" viewBox="0 0 20 20" fill="currentColor">
+                    <path id="mobile-menu-button-icon-menu" fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 
+                    2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
+                </svg>
+            </button>
         </header>
+        <!-- Mobile Navbar -->
+        <nav id="mobile-menu" class="hidden lg:hidden text-center col-span-4 bg-indigo-800">
+            <span class="login-status block p-5">Logged in as {username}</span>
+            <a class="block hover:bg-purple-700 p-5" id="home_tl" href="home_timeline.html">Home Timeline</a> 
+            <a class="block hover:bg-purple-700 p-5" id="public_tl" href="public_timeline.html">Public Timeline</a>
+            <a class="block hover:bg-purple-700 p-5" id="user_tl" href="user_timeline.html">User Timeline</a> 
+            <a class="block hover:bg-purple-700 p-5" id="following_tl" href="following.html">Following</a>  
+            <button id="mobile-logout-button" class="block w-full hover:bg-purple-700 p-5">Logout</button>
+        </nav>
 
         <!-- Navbar -->
         <nav class="hidden lg:col-start-1 lg:row-start-1 lg:grid lg:grid-cols-4 lg:gap-1 lg:row-span-3">
@@ -28,24 +43,6 @@
                 </div>
             </div>
         </nav>
-
-        <!-- Mobile Navbar -->
-        <div class="lg:hidden col-start-2 col-end-4 text-center justify-center items-center">
-            <button id="mobile-menu-button">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16" viewBox="0 0 20 20" fill="currentColor">
-                    <path id="mobile-menu-button-icon-menu" fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 
-                    2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
-                </svg>
-            </button>
-            <div id="mobile-menu" class="hidden bg-indigo-800">
-                <a class="login-status block p-5" href="">Logged in as {username}</a> 
-                <a class="block hover:bg-purple-700 p-5 bg-purple-800 active" id="home_tl" href="home_timeline.html">Home Timeline</a> 
-                <a class="block hover:bg-purple-700 p-5" id="public_tl" href="public_timeline.html">Public Timeline</a>
-                <a class="block hover:bg-purple-700 p-5" id="user_tl" href="user_timeline.html">User Timeline</a> 
-                <a class="block hover:bg-purple-700 p-5" id="following_tl" href="following.html">Following</a>
-                <button id="mobile-logout-button" class="hover:bg-purple-700 p-5">Logout</button>
-            </div>
-        </div>
 
         <!-- Main Content Content -->
         <main class="flex flex-col space-y-16 about-us-container col-start-2 col-end-4">
@@ -140,7 +137,7 @@
         </main>
 
         <!-- Footer -->
-        <footer class="bg-indigo-900 col-span-4 lg:col-start-2 lg:col-end-4 p-10 text-center">
+        <footer class="bg-indigo-900 col-span-4 lg:col-start-2 lg:col-end-4 p-8 text-center">
             <hr class="h-px bg-gray-600 border-none w-auto">
             <h2 class="m-5">Copyright @ 2021 CSUF Team 7</h2>
             <div class="flex flex-col lg:space-x-16 my-5 justify-center items-center text-center lg:justify-between lg:flex-row">
