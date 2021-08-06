@@ -40,7 +40,7 @@
             <div id="mobile-menu" class="hidden bg-indigo-800">
                 <span class="login-status block p-5">Logged in as {username}</span> 
                 <a class="block hover:bg-purple-700 p-5" id="home_tl" href="home_timeline.html">Home Timeline</a> 
-                <a class="block hover:bg-purple-700 p-5 bg-purple-800 active" id="public_tl" href="public_timeline.html">Public Timeline</a>
+                <a class="block hover:bg-purple-700 p-5" id="public_tl" href="public_timeline.html">Public Timeline</a>
                 <a class="block hover:bg-purple-700 p-5" id="user_tl" href="user_timeline.html">User Timeline</a> 
                 <a class="block hover:bg-purple-700 p-5" id="following_tl" href="following.html">Following</a>  
                 <button id="mobile-logout-button" class="block w-full hover:bg-purple-700 p-5">Logout</button>
@@ -48,8 +48,30 @@
         </div>
 
         <!-- Direct Message Content -->
-        <main id='direct-messages' class="dm-container col-span-4 lg:col-start-2 lg:col-end-4 bg-white h-96 w-auto rounded text-black">
-            
+        <main class="direct-messages-container mx-auto shadow-lg rounded-lg col-span-4 lg:col-start-2 lg:col-end-4 lg:h-screen">
+            <!-- Header -->
+            <div class="dm-header px-5 py-5 flex justify-between items-center bg-white border-b-2">
+                <div class="font-semibold text-2xl text-black w-3/4">DMs</div>
+                <div class="h-20 w-40 p-2 bg-yellow-500 rounded-full text-white font-semibold flex items-center justify-center">
+                    Stoopneggle
+                </div>
+            </div>
+
+            <!-- Chatting -->
+            <div class="chat-container flex flex-row justify-between bg-white h-screen">
+                <!-- Convo List Container -->
+                <div id="conv-list-container" class="flex flex-col w-2/5 border-r-2 overflow-y-auto">
+                    <!-- Compose Button -->
+                    <div class="border-b-2 py-4 px-2 text-black text-center">
+                        <button class="bg-yellow-500 hover:bg-yellow-700 text-white text-sm px-4 py-2  border rounded-full" onclick="openCity()"> Compose </button>
+                    </div>
+                </div>
+    
+                <!-- Messages -->
+                <div id="messages" class="w-full px-5 flex flex-col justify-between">
+                </div>
+                
+            </div>
         </main>
 
         <!-- Footer -->
