@@ -141,6 +141,21 @@ export async function unlikePost(userId, postToUnlikeId) {
   })
 }
 
+// Login
+export async function authenticateUser (username, password) {
+  let url = 'http://localhost:5000/users/?username=' + username + '&password=' + password
+  return fetch(url)
+  .then((response) => response.json())
+  .then((data) => {
+    console.log(data.resources[0])
+    return data.resources[0]
+  })
+  .catch(error => {
+    console.log(error)
+    return null
+  })
+}
+
 // Registration
 export async function createUser (username, email, password) {
   let url = 'http://localhost:5000/users'
