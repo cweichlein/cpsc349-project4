@@ -18,9 +18,9 @@ if (window.sessionStorage.getItem('user') !== null) {
   if (document.getElementById('home_tl') === document.querySelector('.active')) {
     timeline = await helper.getHomeTimeline(loggedInUser)
   } else if (document.getElementById('user_tl') === document.querySelector('.active')) {
-    timeline = mockroblog.getUserTimeline(username) //todo
+    timeline = await helper.getUserTimeline(loggedInUser)
   } else if (document.getElementById('public_tl') === document.querySelector('.active')) {
-    timeline = mockroblog.getPublicTimeline()   //todo
+    timeline = await helper.getPublicTimeline()   //todo
   }
 }
 
@@ -85,14 +85,14 @@ if (!window.location.pathname.includes('/about.html')) {
     for (let i = 0; i < timeline.length; i++) {
       let postUser = await helper.getUser(timeline[i].user_id)
       let postUsername = postUser.username
-
+      
       let followOrUnfollowButton = ''
       if (postUsername !== username) {
         followOrUnfollowButton = "<button class='" + postUsername + '-follow-or-unfollow-button ' +
         "rounded-lg p-1 bg-indigo-500 hover:bg-purple-700 transition duration-300'></button>"
       }
-
-
+      
+      
       // HTML for Like/Unlike button
       let likeOrUnlikeButton = null
       if (await helper.postLiked(timeline[i].id, loggedInUser.id)) {
@@ -102,7 +102,7 @@ if (!window.location.pathname.includes('/about.html')) {
         likeOrUnlikeButton = "<button id=" + timeline[i].id + "-like-button class='flex items-center rounded-lg p-1 bg-green-600 hover:bg-green-700 "
         + "transition duration-300'>" + "&#128077; " + await helper.getLikes(timeline[i].id) + "</button>"
       }
-
+      
       const timelinePost = document.createElement('div')
       timelinePost.className = "p-5 m-5 rounded-lg bg-black"
       timelinePost.innerHTML += "<div class='flex flex-row text-center items-center justify-between mb-2'>" +
@@ -110,21 +110,21 @@ if (!window.location.pathname.includes('/about.html')) {
       timelinePost.innerHTML += "<div class='post-text m-2 break-words'>" + timeline[i].text + "</div>"
       timelinePost.innerHTML += "<hr><div class='flex items-center text-center mt-2 justify-between'><p>"
       + timeline[i].timestamp + "</p>" + likeOrUnlikeButton + "</div>"
-
+      
       document.getElementById('timeline').append(timelinePost)
-
+      
       // Follow/Unfollow
       let followArr = await helper.getFollowing(loggedInUser)
       let found = false
       for (let j = 0; j < followArr.length; j++) {
-        if (postUser.id === followArr[j].id) // if found, button is unfollow
+        if (postUser.id === followArr[j].following_id) // if found, button is unfollow
         {
           found = true
           const buttonArr = document.getElementsByClassName(postUsername + '-follow-or-unfollow-button')
           for (let k = 0; k < buttonArr.length; k++) {
             buttonArr[k].innerHTML = 'Unfollow'
             buttonArr[k].addEventListener('click', () => {
-              mockroblog.removeFollower(window.sessionStorage.getItem('uid'), timeline[i].user_id)
+              mockroblog.removeFollower(loggedInUser.id, timeline[i].user_id)
               buttonArr[k].innerHTML = 'Follow'
             })
           }
@@ -136,7 +136,7 @@ if (!window.location.pathname.includes('/about.html')) {
         for (let l = 0; l < buttonArr.length; l++) {
           buttonArr[l].innerHTML = 'Follow'
           buttonArr[l].addEventListener('click', () => {
-            mockroblog.addFollower(window.sessionStorage.getItem('uid'), timeline[i].user_id)
+            mockroblog.addFollower(loggedInUser.id, timeline[i].user_id)
             buttonArr[l].innerHTML = 'Unfollow'
           })
         }
@@ -144,10 +144,10 @@ if (!window.location.pathname.includes('/about.html')) {
     }
   }
 }
-
+  
 // New post dropdown menu
-
-if (!window.location.pathname.includes('/following.html') && !window.location.pathname.includes('/about.html')) {
+  
+  if (window.location.pathname.includes('public_timeline') || window.location.pathname.includes('user_timeline')) {
   const newPostBtn = document.getElementById('new-post-button')
   const newPostArea = document.getElementById('new-post-area')
 
@@ -188,23 +188,23 @@ async function publishPost () {
   }
 }
 
-if (!window.location.pathname.includes('/following.html') && !window.location.pathname.includes('/about.html')) {
+if (window.location.pathname.includes('public_timeline') || window.location.pathname.includes('user_timeline')) {
   document.getElementById('post-button').onclick = function () { publishPost() }
 }
 
 // Like/Unlike button functionality
 
-for(let i = 0; i < timeline.length; i++){
+for (let i = 0; i < timeline.length; i++) {
   let postId = timeline[i].id
-  if(document.getElementById(postId +'-like-button') != null){
+  if (document.getElementById(postId +'-like-button') != null) {
     let likeButton = document.getElementById(postId +'-like-button')
     likeButton.onclick = async function () {
+      console.log("HELLO")
       await helper.likePost(loggedInUser.id, postId)
       likeButton.outerHTML = "<button id=" + timeline[i].id + "-unlike-button class='flex items-center rounded-lg p-1 bg-red-600 hover:bg-red-700 "
       + "transition duration-300'>" + "&#128077; " + await helper.getLikes(timeline[i].id) + "</button>"
     }
-  }
-  else{
+  } else {
     //document.getElementById(postId +'-unlike-button').onclick = async function () {await helper.unlikePost(loggedInUser.id, postId)}
   }
 }
