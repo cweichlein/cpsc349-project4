@@ -1,5 +1,7 @@
 import { data } from "autoprefixer"
 
+// GET and POST request help from: https://www.digitalocean.com/community/tutorials/how-to-use-the-javascript-fetch-api-to-get-data
+
 // Returns user object from an ID or username
 export function getUser (key) {
   let url = null
@@ -32,7 +34,6 @@ export function getFollowing (user) {
 }
 
 // Returns Home Timeline posts as an array
-// Help from: https://www.digitalocean.com/community/tutorials/how-to-use-the-javascript-fetch-api-to-get-data
 export async function getHomeTimeline (user) {
   let following = await getFollowing(user)
   let timeline = []
@@ -45,13 +46,14 @@ export async function getHomeTimeline (user) {
       timeline.push(followedTimeline[j])
     }
   }
+  //todo sort by timestamp
+  //console.log(timeline)
   return timeline
 }
 
 // Returns User Timeline posts as an array
-export  function getUserTimeline (user) {
-  const url = 'http://localhost:5000/posts/?user_id=' + user.id
-  
+export function getUserTimeline (user) {
+  const url = 'http://localhost:5000/posts/?sort=-timestamp&user_id=' + user.id
   return fetch(url)
     .then((response) => response.json())
     .then((data) => {
@@ -59,9 +61,8 @@ export  function getUserTimeline (user) {
     })
 }
 
-export  function getPublicTimeline () {
-  const url = 'http://localhost:5000/posts/'
-  
+export function getPublicTimeline () {
+  const url = 'http://localhost:5000/posts/?sort=-timestamp'
   return fetch(url)
     .then((response) => response.json())
     .then((data) => {
@@ -71,7 +72,6 @@ export  function getPublicTimeline () {
 
 // Returns the number of likes a post has
 export function getLikes(postId){
-  //const url = 'http://localhost:5000/likes'
   const url = 'http://localhost:5000/likes/?post_id=' + postId
   return fetch(url)
     .then((response) => response.json())
@@ -114,8 +114,21 @@ export function likePost(userId, postId){
 }
 
 // Unlike a post
-// export function unlikePost(postId, userId) {
-// }
+export function unlikePost(userId, postId) {
+  const url = 'http://localhost:5000/likes'
+  let data = {
+    user_id: userId,
+    post_id: postId
+  }
+  let request = new Request(url, {
+      method: 'DELETE',
+      body: JSON.stringify(data),
+      headers: new Headers()
+  });
+  console.log('User', userId, 'unliked post', postId)
+  return fetch(request)
+}
+//unlikePost(1, 4)
 
 // Registration
 export async function createUser (username, email, password) {
@@ -142,7 +155,6 @@ export async function createUser (username, email, password) {
 }
 
 // New post
-
 export async function postMessage (userId, newPostText) {
   let url = 'http://localhost:5000/posts/'
 
