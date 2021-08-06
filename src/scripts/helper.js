@@ -129,7 +129,6 @@ export async function unlikePost(userId, postToUnlikeId) {
   let likedPosts = await getLikedPosts()
   console.log(likedPosts)
   for (let i = 0; i < likedPosts.length; i++) {
-    console.log(userId, likedPosts[i].user_id, postToUnlikeId, likedPosts[i].post_id)
     if (userId === likedPosts[i].user_id && postToUnlikeId === likedPosts[i].post_id) {
       tableId = likedPosts[i].id
     }
