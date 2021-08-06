@@ -113,22 +113,47 @@ export function likePost(userId, postId){
   return fetch(request)
 }
 
-// Unlike a post
-export function unlikePost(userId, postId) {
-  const url = 'http://localhost:5000/likes'
-  let data = {
-    user_id: userId,
-    post_id: postId
-  }
-  let request = new Request(url, {
-      method: 'DELETE',
-      body: JSON.stringify(data),
-      headers: new Headers()
-  });
-  console.log('User', userId, 'unliked post', postId)
-  return fetch(request)
+export async function getLikedPosts() {
+  let url = 'http://localhost:5000/likes/'
+
+  return fetch(url)
+  .then(response => response.json())
+  .then(data => {
+    return data.resources
+  })
 }
-//unlikePost(1, 4)
+
+// Unlike a post
+export async function unlikePost(userId, postToUnlikeId) {
+  let tableId = 0
+  let likedPosts = await getLikedPosts()
+  console.log(likedPosts)
+  for (let i = 0; i < likedPosts.length; i++) {
+    if (userId === likedPosts[i].user_id && postToUnlikeId === likedPosts[i].post_id) {
+      tableId = likedPosts[i].id
+    }
+  }
+  let url = 'http://localhost:5000/likes/' + tableId
+  return fetch(url, {
+    method: 'DELETE',
+    headers: new Headers()
+  })
+}
+
+// Login
+export async function authenticateUser (username, password) {
+  let url = 'http://localhost:5000/users/?username=' + username + '&password=' + password
+  return fetch(url)
+  .then((response) => response.json())
+  .then((data) => {
+    console.log(data.resources[0])
+    return data.resources[0]
+  })
+  .catch(error => {
+    console.log(error)
+    return null
+  })
+}
 
 // Registration
 export async function createUser (username, email, password) {
