@@ -195,7 +195,7 @@ if (window.location.pathname.includes('public_timeline') || window.location.path
 }
 
 // Like/Unlike button functionality
-if (!window.location.pathname.includes('/about.html') || !window.location.pathname.includes('/following.html')) {
+if (!window.location.pathname.includes('/about.html') && !window.location.pathname.includes('/following.html')) {
   for (let i = 0; i < timeline.length; i++) {
     let postId = timeline[i].id
     if (document.getElementById(postId +'-like-button') != null) {
@@ -206,7 +206,15 @@ if (!window.location.pathname.includes('/about.html') || !window.location.pathna
         + "transition duration-300'>" + "&#128077; " + await helper.getLikes(timeline[i].id) + "</button>"
       }
     } else {
-      //document.getElementById(postId +'-unlike-button').onclick = async function () {await helper.unlikePost(loggedInUser.id, postId)}
+      //todo
+      /*
+      let unlikeButton = document.getElementById(postId +'-unlike-button')
+      unlikeButton.onclick = async function () {
+        await helper.unlikePost(loggedInUser.id, postId)
+        unlikeButton.outerHTML = "<button id=" + timeline[i].id + "-like-button class='flex items-center rounded-lg p-1 bg-green-600 hover:bg-green-700 "
+        + "transition duration-300'>" + "&#128077; " + await helper.getLikes(timeline[i].id) + "</button>"
+      }
+      */
     }
   }
 }
