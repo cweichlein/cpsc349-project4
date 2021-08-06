@@ -1,6 +1,7 @@
 import { data } from "autoprefixer"
 
 // GET and POST request help from: https://www.digitalocean.com/community/tutorials/how-to-use-the-javascript-fetch-api-to-get-data
+// DELETE request help from: https://dev.to/silvenleaf/fetch-api-easiest-explanation-part-4-4-delete-by-silvenleaf-4376
 
 // Returns user object from an ID or username
 export function getUser (key) {
