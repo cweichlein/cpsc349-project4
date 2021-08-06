@@ -176,3 +176,53 @@ export async function postMessage (userId, newPostText) {
     return null
   })
 }
+
+export async function addFollower(userId, userToFollowId)
+{
+  const url = 'http://localhost:5000/followers/'
+  return fetch(url, {
+    method: 'POST',
+    body: JSON.stringify({
+      follower_id: userId,
+      following_id: userToFollowId
+    }),
+    headers: new Headers()
+  })
+  .then(response => response.json())
+  .then(data => 
+    {
+      console.log(data)
+      return data
+    })
+  .catch(error => {
+    console.log(error)
+    return null
+  })
+}
+
+// Parameters: ID of current user, and ID of following user
+export async function removeFollower(user, userToUnfollowId)
+{
+  let tableId = 0
+  const followArr = await getFollowing(user)
+  for (let i = 0; i < followArr.length; i++) {
+    if (userToUnfollowId === followArr[i].following_id) {
+      tableId = followArr[i].id
+    }
+  }
+  const url = 'http://localhost:5000/followers/' + tableId
+  return fetch(url, {
+    method: 'DELETE',
+    headers: new Headers()
+  })
+  .then(response => response.json())
+  .then(data => 
+    {
+      console.log(data)
+      return data
+    })
+  .catch(error => {
+    console.log(error)
+    return null
+  })
+}
