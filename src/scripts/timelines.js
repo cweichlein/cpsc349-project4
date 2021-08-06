@@ -143,20 +143,6 @@ if (!window.location.pathname.includes('/about.html')) {
       }
     }
   }
-  // Like/Unlike button functionality
-  for (let i = 0; i < timeline.length; i++) {
-    let postId = timeline[i].id
-    if(document.getElementById(postId +'-like-button') != null){
-      let likeButton = document.getElementById(postId +'-like-button')
-      likeButton.onclick = async function () {
-        await helper.likePost(loggedInUser.id, postId)
-        likeButton.outerHTML = "<button id=" + timeline[i].id + "-unlike-button class='flex items-center rounded-lg p-1 bg-red-600 hover:bg-red-700 "
-        + "transition duration-300'>" + "&#128077; " + await helper.getLikes(timeline[i].id) + "</button>"
-      }
-    } else {
-      //document.getElementById(postId +'-unlike-button').onclick = async function () {await helper.unlikePost(loggedInUser.id, postId)}
-    }
-  }
 }
   
 // New post dropdown menu
@@ -209,18 +195,18 @@ if (window.location.pathname.includes('public_timeline') || window.location.path
 }
 
 // Like/Unlike button functionality
-
-for (let i = 0; i < timeline.length; i++) {
-  let postId = timeline[i].id
-  if (document.getElementById(postId +'-like-button') != null) {
-    let likeButton = document.getElementById(postId +'-like-button')
-    likeButton.onclick = async function () {
-      console.log("HELLO")
-      await helper.likePost(loggedInUser.id, postId)
-      likeButton.outerHTML = "<button id=" + timeline[i].id + "-unlike-button class='flex items-center rounded-lg p-1 bg-red-600 hover:bg-red-700 "
-      + "transition duration-300'>" + "&#128077; " + await helper.getLikes(timeline[i].id) + "</button>"
+if (!window.location.pathname.includes('/about.html') || !window.location.pathname.includes('/following.html')) {
+  for (let i = 0; i < timeline.length; i++) {
+    let postId = timeline[i].id
+    if (document.getElementById(postId +'-like-button') != null) {
+      let likeButton = document.getElementById(postId +'-like-button')
+      likeButton.onclick = async function () {
+        await helper.likePost(loggedInUser.id, postId)
+        likeButton.outerHTML = "<button id=" + timeline[i].id + "-unlike-button class='flex items-center rounded-lg p-1 bg-red-600 hover:bg-red-700 "
+        + "transition duration-300'>" + "&#128077; " + await helper.getLikes(timeline[i].id) + "</button>"
+      }
+    } else {
+      //document.getElementById(postId +'-unlike-button').onclick = async function () {await helper.unlikePost(loggedInUser.id, postId)}
     }
-  } else {
-    //document.getElementById(postId +'-unlike-button').onclick = async function () {await helper.unlikePost(loggedInUser.id, postId)}
   }
 }

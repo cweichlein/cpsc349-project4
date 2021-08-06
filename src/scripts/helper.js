@@ -70,16 +70,6 @@ export function getPublicTimeline () {
     })
 }
 
-export  function getPublicTimeline () {
-  const url = 'http://localhost:5000/posts/'
-  
-  return fetch(url)
-    .then((response) => response.json())
-    .then((data) => {
-      return data.resources
-    })
-}
-
 // Returns the number of likes a post has
 export function getLikes(postId){
   const url = 'http://localhost:5000/likes/?post_id=' + postId
@@ -135,7 +125,7 @@ export function unlikePost(userId, postId) {
       body: JSON.stringify(data),
       headers: new Headers()
   });
-  console.log('User', userId, 'liked post', postId)
+  console.log('User', userId, 'unliked post', postId)
   return fetch(request)
 }
 //unlikePost(1, 4)
