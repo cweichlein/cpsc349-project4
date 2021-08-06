@@ -207,15 +207,12 @@ if (window.location.pathname.includes('timeline')) {
       }
     } else {
       //todo
-      /*
       let unlikeButton = document.getElementById(postId +'-unlike-button')
       unlikeButton.onclick = async function () {
         await helper.unlikePost(loggedInUser.id, postId)
         unlikeButton.outerHTML = "<button id=" + timeline[i].id + "-like-button class='flex items-center rounded-lg p-1 bg-green-600 hover:bg-green-700 "
         + "transition duration-300'>" + "&#128077; " + await helper.getLikes(timeline[i].id) + "</button>"
       }
-      */
-      //document.getElementById(postId +'-unlike-button').onclick = async function () {await helper.unlikePost(loggedInUser.id, postId)}
     }
   }
 }
