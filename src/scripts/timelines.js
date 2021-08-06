@@ -168,10 +168,10 @@ async function publishPost () {
 
     let likeOrUnlikeButton = null
       if (await helper.postLiked(postData.id, loggedInUser.id)) {
-        likeOrUnlikeButton = "<div class='flex items-center'><button class='rounded-lg p-1 bg-red-600 hover:bg-red-700 "
+        likeOrUnlikeButton = "<div class='flex items-center'><button class='" + postData.id + "-like-button rounded-lg p-1 bg-red-600 hover:bg-red-700 "
         + "transition duration-300'>" + "&#128077; " + await helper.getLikes(postData.id) + "</button>" 
       } else { 
-        likeOrUnlikeButton = "<div class='flex items-center'><button class='rounded-lg p-1 bg-green-600 hover:bg-green-700 "
+        likeOrUnlikeButton = "<div class='flex items-center'><button class='" + postData.id + "-unlike-button rounded-lg p-1 bg-green-600 hover:bg-green-700 "
         + "transition duration-300'>" + "&#128077; " + await helper.getLikes(postData.id) + "</button>" 
       }
 
@@ -191,7 +191,10 @@ async function publishPost () {
 }
 
 if (window.location.pathname.includes('public_timeline') || window.location.pathname.includes('user_timeline')) {
-  document.getElementById('post-button').onclick = function () { publishPost() }
+  document.getElementById('post-button').onclick = function () {
+    publishPost()
+    // location.reload()
+  }
 }
 
 // Like/Unlike button functionality
