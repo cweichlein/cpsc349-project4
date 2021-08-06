@@ -18,15 +18,6 @@ export function getUser (key) {
     .then((response) => response.json())
     .then((data) => {
       return data.resources[0]
-      //Old stuff; delete
-      // const users = data.resources
-      
-      // for (let i = 0; i < users.length; i++) {
-      //   if (users[i].id == key || users[i].username == key) {
-      //     return users[i]
-      //   }
-      // }
-      // return null
     })
 }
 
@@ -37,15 +28,6 @@ export function getFollowing (user) {
     .then((response) => response.json())
     .then((data) => {
       return data.resources
-      //Old stuff; delete
-      // return users
-      // let followingList =[]
-      // for (let i = 0; i < users.length; i++) {
-      //   if (users[i].follower_id == id) {
-      //     followingList.push(users[i].following_id)
-      //   }
-      // }
-      // return followingList
     })
 }
 
@@ -64,19 +46,6 @@ export async function getHomeTimeline (user) {
     }
   }
   return timeline
-  //Old GET request; delete
-  // return fetch(url)
-  //   .then((response) => response.json())
-  //   .then((data) => {
-      
-  //     const posts = data.resources
-  //     for (let i = 0; i < posts.length; i++) {
-  //       if (following.includes(posts[i].user_id)) {
-  //         timeline.push(posts[i])
-  //       }
-  //     }
-  //     return timeline
-    // })
 }
 
 // Returns User Timeline posts as an array
@@ -108,15 +77,6 @@ export function getLikes(postId){
     .then((response) => response.json())
     .then((data) => {
       return data.resources.length
-      //Old stuff' delete
-      // const likeList = data.resources
-      // let likes = 0
-      // for (let i = 0; i < likeList.length; i++) {
-      //   if (likeList[i].post_id == postId) {
-      //     likes++
-      //   }
-      // }
-      // return likes
     })
 }
 
@@ -134,13 +94,6 @@ export function postLiked(postId, userId){
       else{
         return false
       }
-      // //Old stuff; delete
-      // for (let i = 0; i < likeList.length; i++) {
-      //   if (likeList[i].post_id == postId && likeList[i].user_id == userId) {
-      //     return true
-      //   }
-      // }
-      // return false
     })
 }
 
@@ -206,6 +159,56 @@ export async function postMessage (userId, newPostText) {
     console.log(data)
     return data
   })
+  .catch(error => {
+    console.log(error)
+    return null
+  })
+}
+
+export async function addFollower(userId, userToFollowId)
+{
+  const url = 'http://localhost:5000/followers/'
+  return fetch(url, {
+    method: 'POST',
+    body: JSON.stringify({
+      follower_id: userId,
+      following_id: userToFollowId
+    }),
+    headers: new Headers()
+  })
+  .then(response => response.json())
+  .then(data => 
+    {
+      console.log(data)
+      return data
+    })
+  .catch(error => {
+    console.log(error)
+    return null
+  })
+}
+
+// Parameters: ID of current user, and ID of following user
+export async function removeFollower(user, userToUnfollowId)
+{
+  let tableId = 0
+  const followArr = await getFollowing(user)
+  for (let i = 0; i < followArr.length; i++) {
+    if (userToUnfollowId === followArr[i].following_id) {
+      tableId = followArr[i].id
+    }
+  }
+  const url = 'http://localhost:5000/followers/' + tableId
+  return fetch(url, {
+    method: 'DELETE',
+    headers: new Headers()
+  })
+  .then(response => response.json())
+  .then(data => 
+    {
+      console.log(data)
+      return data
+    })
   .catch(error => {
     console.log(error)
     return null
