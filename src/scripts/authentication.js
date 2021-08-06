@@ -9,15 +9,15 @@ if (window.sessionStorage.getItem('login-error') !== null) {
 }
 
 // Login button functionality
-function login () {
+async function login () {
   const loginSession = window.sessionStorage
   const usernameInput = document.getElementById('login-username').value
   const passwordInput = document.getElementById('login-password').value
-  const userInfo = mockroblog.authenticateUser(usernameInput, passwordInput) // todo
+  const userInfo = await helper.authenticateUser(usernameInput, passwordInput)
   checkForLoginValidation(usernameInput, passwordInput, userInfo)
   if (userInfo) {
     loginSession.setItem('user', JSON.stringify(userInfo))
-    window.location.href = 'home_timeline.html'
+    window.location.href = 'public_timeline.html'
   }
 }
 
