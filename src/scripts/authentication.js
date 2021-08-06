@@ -62,7 +62,7 @@ async function register () {
   const passwordInput = document.getElementById('registration-password').value
   const confirmPasswordInput = document.getElementById('registration-confirm-password').value
   // const userInfo = mockroblog.createUser(usernameInput, emailInput, passwordInput) // todo
-  const userInfo = await helper.createUser(usernameInput, emailInput, passwordInput) // todo
+  const userInfo = await helper.createUser(usernameInput, emailInput, passwordInput)
   console.log(userInfo)
   if (checkForRegistrationValidation(usernameInput, emailInput, passwordInput, confirmPasswordInput, userInfo)) {
     loginSession.setItem('user', JSON.stringify(userInfo))

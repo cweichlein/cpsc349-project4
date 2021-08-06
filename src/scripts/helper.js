@@ -124,7 +124,6 @@ export async function unlikePost(userId, postId) {
   })
   
   url = 'http://localhost:5000/likes/' + tableId
-  console.log(url)
   fetch(url, {
     method: 'DELETE',
     headers: new Headers()

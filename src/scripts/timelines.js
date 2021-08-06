@@ -1,5 +1,4 @@
 import * as helper from './helper.js'
-import * as mockroblog from './mockroblog.js'
 
 console.log('timeline.js called')
 
@@ -208,13 +207,14 @@ if (window.location.pathname.includes('timeline')) {
         likeButton.outerHTML = "<button id=" + timeline[i].id + "-unlike-button class='flex items-center rounded-lg p-1 bg-red-600 hover:bg-red-700 "
         + "transition duration-300'>" + "&#128077; " + await helper.getLikes(timeline[i].id) + "</button>"
       }
-    } else {
-      //todo
+    } 
+    else {
       let unlikeButton = document.getElementById(postId +'-unlike-button')
       unlikeButton.onclick = async function () {
         await helper.unlikePost(loggedInUser.id, postId)
         unlikeButton.outerHTML = "<button id=" + timeline[i].id + "-like-button class='flex items-center rounded-lg p-1 bg-green-600 hover:bg-green-700 "
         + "transition duration-300'>" + "&#128077; " + await helper.getLikes(timeline[i].id) + "</button>"
+        //console.log(await helper.getLikes(timeline[i].id))
       }
     }
   }
