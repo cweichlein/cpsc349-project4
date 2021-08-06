@@ -1,5 +1,7 @@
 import { data } from "autoprefixer"
 
+// GET and POST request help from: https://www.digitalocean.com/community/tutorials/how-to-use-the-javascript-fetch-api-to-get-data
+
 // Returns user object from an ID or username
 export function getUser (key) {
   let url = null
@@ -18,15 +20,6 @@ export function getUser (key) {
     .then((response) => response.json())
     .then((data) => {
       return data.resources[0]
-      //Old stuff; delete
-      // const users = data.resources
-      
-      // for (let i = 0; i < users.length; i++) {
-      //   if (users[i].id == key || users[i].username == key) {
-      //     return users[i]
-      //   }
-      // }
-      // return null
     })
 }
 
@@ -37,20 +30,10 @@ export function getFollowing (user) {
     .then((response) => response.json())
     .then((data) => {
       return data.resources
-      //Old stuff; delete
-      // return users
-      // let followingList =[]
-      // for (let i = 0; i < users.length; i++) {
-      //   if (users[i].follower_id == id) {
-      //     followingList.push(users[i].following_id)
-      //   }
-      // }
-      // return followingList
     })
 }
 
 // Returns Home Timeline posts as an array
-// Help from: https://www.digitalocean.com/community/tutorials/how-to-use-the-javascript-fetch-api-to-get-data
 export async function getHomeTimeline (user) {
   let following = await getFollowing(user)
   let timeline = []
@@ -63,26 +46,23 @@ export async function getHomeTimeline (user) {
       timeline.push(followedTimeline[j])
     }
   }
+  //todo sort by timestamp
+  //console.log(timeline)
   return timeline
-  //Old GET request; delete
-  // return fetch(url)
-  //   .then((response) => response.json())
-  //   .then((data) => {
-      
-  //     const posts = data.resources
-  //     for (let i = 0; i < posts.length; i++) {
-  //       if (following.includes(posts[i].user_id)) {
-  //         timeline.push(posts[i])
-  //       }
-  //     }
-  //     return timeline
-    // })
 }
 
 // Returns User Timeline posts as an array
-export  function getUserTimeline (user) {
-  const url = 'http://localhost:5000/posts/?user_id=' + user.id
-  
+export function getUserTimeline (user) {
+  const url = 'http://localhost:5000/posts/?sort=-timestamp&user_id=' + user.id
+  return fetch(url)
+    .then((response) => response.json())
+    .then((data) => {
+      return data.resources
+    })
+}
+
+export function getPublicTimeline () {
+  const url = 'http://localhost:5000/posts/?sort=-timestamp'
   return fetch(url)
     .then((response) => response.json())
     .then((data) => {
@@ -92,21 +72,11 @@ export  function getUserTimeline (user) {
 
 // Returns the number of likes a post has
 export function getLikes(postId){
-  //const url = 'http://localhost:5000/likes'
   const url = 'http://localhost:5000/likes/?post_id=' + postId
   return fetch(url)
     .then((response) => response.json())
     .then((data) => {
       return data.resources.length
-      //Old stuff' delete
-      // const likeList = data.resources
-      // let likes = 0
-      // for (let i = 0; i < likeList.length; i++) {
-      //   if (likeList[i].post_id == postId) {
-      //     likes++
-      //   }
-      // }
-      // return likes
     })
 }
 
@@ -124,13 +94,6 @@ export function postLiked(postId, userId){
       else{
         return false
       }
-      // //Old stuff; delete
-      // for (let i = 0; i < likeList.length; i++) {
-      //   if (likeList[i].post_id == postId && likeList[i].user_id == userId) {
-      //     return true
-      //   }
-      // }
-      // return false
     })
 }
 
@@ -151,8 +114,21 @@ export function likePost(userId, postId){
 }
 
 // Unlike a post
-// export function unlikePost(postId, userId) {
-// }
+export function unlikePost(userId, postId) {
+  const url = 'http://localhost:5000/likes'
+  let data = {
+    user_id: userId,
+    post_id: postId
+  }
+  let request = new Request(url, {
+      method: 'DELETE',
+      body: JSON.stringify(data),
+      headers: new Headers()
+  });
+  console.log('User', userId, 'liked post', postId)
+  return fetch(request)
+}
+//unlikePost(1, 4)
 
 // Registration
 export async function createUser (username, email, password) {
@@ -179,7 +155,6 @@ export async function createUser (username, email, password) {
 }
 
 // New post
-
 export async function postMessage (userId, newPostText) {
   let url = 'http://localhost:5000/posts/'
 
