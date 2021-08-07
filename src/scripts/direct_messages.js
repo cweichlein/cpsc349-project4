@@ -105,12 +105,12 @@ async function directMessage () {
 if(window.location.pathname.includes('/direct_messages.html')) {
   if(temp_key_list !== null) {
     const dmPost = document.createElement('div')
-    dmPost.className = "tab flex flex-row py-4 px-2 justify-center items-center border-b-2 w-full"
+    dmPost.className = "tab flex flex-row py-4 px-2 justify-center items-center border-b-2 w-full overflow-hidden bg-gray-200"
     
     // generate the convo list
     for(let i = 0; i < temp_key_list.length; i++) {
       const result = await helper.getUser(temp_key_list[i])
-      dmPost.innerHTML += "<button class='tablinks text-lg font-semibold text-black'>" + result.username + "</button>"        
+      dmPost.innerHTML += "<button class='tablinks cursor-pointer duration-75 hover:bg-gray-300 active:bg-gray-500 text-lg font-semibold text-black' onclick='openConvo(event, " + temp_key_list[i] + ")'>" + result.username + "</button>"        
       document.getElementById('conv-list-container').append(dmPost)
     }
   }
@@ -140,27 +140,33 @@ if(window.location.pathname.includes('/direct_messages.html')) {
 }
 */
 
+
 export async function generateConvos() {
   if(dm_list !== null) {
-    const dmPost = document.createElement('div')
-    dmPost.className = "flex flex-col mt-5"
-    for(let i = 0; i < dm_list.length; i++) {
-      const result = await dm_list[i]
-      dmPost.innerHTML += "<div class='flex justify-end mb-4'>"
-      
-      if(dm_list[i].from_user_id === current_user_id && dm_list[i].convo_key === convo_key) 
-        dmPost.innerHTML += "<div class='mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white'>" + result.text + "</div>"
-      else if(dm_list[i].to_user_id === current_user_id && dm_list[i].convo_key === convo_key)
-        dmPost.innerHTML += "<div class='ml-2 py-3 px-4 bg-gray-400 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white'>" + result.text  + "</div>"
-      
-      dmPost.innerHTML += "</div>"
+    for(let x = 0; x < temp_key_list.length; x++) {
+      const dmPost = document.createElement('div')
+      dmPost.setAttribute('id',temp_key_list[x]);
+      dmPost.className = "tabcontent flex flex-col mt-5"
 
-      document.getElementById('messages').append(dmPost)
+      // Generates the convos for the specific convo key
+      for(let i = 0; i < dm_list.length; i++) {
+        const result = await dm_list[i]
+        dmPost.innerHTML += "<div class='flex justify-end mb-4'>"
+        
+        if(dm_list[i].from_user_id === current_user_id && dm_list[i].convo_key === temp_key_list[x]) 
+          dmPost.innerHTML += "<div class='mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white'>" + result.text + "</div>"
+        else if(dm_list[i].to_user_id === current_user_id && dm_list[i].convo_key === temp_key_list[x])
+          dmPost.innerHTML += "<div class='ml-2 py-3 px-4 bg-gray-400 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white'>" + result.text  + "</div>"
+        
+        dmPost.innerHTML += "</div>"
+  
+        document.getElementById('messages').append(dmPost)
+      }
     }
   }
 }
 
-/* old version that works
+/*
 export async function displayMessages(convo_key) {
   if(dm_list !== null) {
     const dmPost = document.createElement('div')
@@ -181,3 +187,27 @@ export async function displayMessages(convo_key) {
   }
 }
 */
+
+export async function openConvo(evt, convo_key) {
+  // Declare all variables
+  let tabcontent, tablinks;
+
+  // Get all elements with class="tabcontent" and hide them
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (let i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+
+  // Get all elements with class="tablinks" and remove the class "active"
+  tablinks = document.getElementsByClassName("tablinks");
+  for (let i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+
+  // Show the current tab, and add an "active" class to the button that opened the tab
+  document.getElementById(convo_key).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+
+// Generate convos on page
+generateConvos()
