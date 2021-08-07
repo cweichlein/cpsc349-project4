@@ -15,6 +15,18 @@ if (window.sessionStorage.getItem('user') !== null) {
     username = loggedInUser.username
   }
   
+  // timeline = await getTimeline()
+  // if (document.getElementById('home_tl') === document.querySelector('.active')) {
+  //   timeline = await helper.getHomeTimeline(loggedInUser)
+  // } else if (document.getElementById('user_tl') === document.querySelector('.active')) {
+  //   timeline = await helper.getUserTimeline(loggedInUser)
+  // } else if (document.getElementById('public_tl') === document.querySelector('.active')) {
+  //   timeline = await helper.getPublicTimeline()   //todo
+  // }
+}
+
+async function getTimeline() {
+  let timeline = null
   if (document.getElementById('home_tl') === document.querySelector('.active')) {
     timeline = await helper.getHomeTimeline(loggedInUser)
   } else if (document.getElementById('user_tl') === document.querySelector('.active')) {
@@ -22,6 +34,7 @@ if (window.sessionStorage.getItem('user') !== null) {
   } else if (document.getElementById('public_tl') === document.querySelector('.active')) {
     timeline = await helper.getPublicTimeline()   //todo
   }
+  return timeline
 }
 
 // Logged in as {username} on navbar
@@ -79,49 +92,55 @@ mobileBtn.addEventListener('click', () => {
 })
 
 // Generate div for each blog post
-if (!window.location.pathname.includes('/about.html')) {
-  if (timeline !== null) {
-    for (let i = 0; i < timeline.length; i++) {
-      let postUser = await helper.getUser(timeline[i].user_id)
-      let postUsername = postUser.username
-      let postId = timeline[i].id
-      
-      // Generate follow/unfollow button
-      let found = false
-      let followOrUnfollowButton = ''
-      let followArr = await helper.getFollowing(loggedInUser)
-      if (postUsername !== loggedInUser.username) {
-        for (let j = 0; j < followArr.length; j++) {
-          if (postUser.id === followArr[j].following_id) {
-            found = true
-            followOrUnfollowButton = "<button id='" + postUser.id + "-" + postId + "-unfollow-button' class='"
-            + "rounded-lg p-1 bg-indigo-500 hover:bg-purple-700 transition duration-300'>Unfollow</button>"
-          } else if (!found) {
+async function generatePostDivs() {
+  if (!window.location.pathname.includes('/about.html')) {
+    timeline = await getTimeline()
+    console.log(timeline)
+    if (timeline !== null) {
+      document.getElementById('timeline').innerHTML = ''
+      for (let i = 0; i < timeline.length; i++) {
+        let postUser = await helper.getUser(timeline[i].user_id)
+        let postUsername = postUser.username
+        let postId = timeline[i].id
+        
+        // Generate follow/unfollow button
+        let found = false
+        let followOrUnfollowButton = ''
+        let followArr = await helper.getFollowing(loggedInUser)
+        if (postUsername !== loggedInUser.username) {
+          for (let j = 0; j < followArr.length; j++) {
+            if (postUser.id === followArr[j].following_id) {
+              found = true
+              followOrUnfollowButton = "<button id='" + postUser.id + "-" + postId + "-unfollow-button' class='"
+              + "rounded-lg p-1 bg-indigo-500 hover:bg-purple-700 transition duration-300'>Unfollow</button>"
+            }
+          }
+          if (!found) {
             followOrUnfollowButton = "<button id='" + postUser.id + "-" + postId + "-follow-button' class='"
             + "rounded-lg p-1 bg-indigo-500 hover:bg-purple-700 transition duration-300'>Follow</button>"
           }
         }
+        
+        // Generate like/unlike button
+        let likeOrUnlikeButton = null
+        if (await helper.postLiked(postId, loggedInUser.id)) {
+          likeOrUnlikeButton = "<button id=" + postId + "-unlike-button class='flex items-center rounded-lg p-1 bg-red-600 hover:bg-red-700 "
+          + "transition duration-300'>" + "&#128077; " + await helper.getLikes(postId) + "</button>"
+        } else { 
+          likeOrUnlikeButton = "<button id=" + postId + "-like-button class='flex items-center rounded-lg p-1 bg-green-600 hover:bg-green-700 "
+          + "transition duration-300'>" + "&#128077; " + await helper.getLikes(postId) + "</button>"
+        }
+        
+        const timelinePost = document.createElement('div')
+        timelinePost.className = "p-5 m-5 rounded-lg bg-black"
+        timelinePost.innerHTML += "<div class='flex flex-row text-center items-center justify-between mb-2'>" +
+        "<p>" + postUsername + "</p>" + followOrUnfollowButton + "</div><hr>"
+        timelinePost.innerHTML += "<div class='post-text m-2 break-words'>" + timeline[i].text + "</div>"
+        timelinePost.innerHTML += "<hr><div class='flex items-center text-center mt-2 justify-between'><p>"
+        + timeline[i].timestamp + "</p>" + likeOrUnlikeButton + "</div>"
+        
+        document.getElementById('timeline').append(timelinePost)
       }
-      
-      // Generate like/unlike button
-      let likeOrUnlikeButton = null
-      if (await helper.postLiked(postId, loggedInUser.id)) {
-        likeOrUnlikeButton = "<button id=" + postId + "-unlike-button class='flex items-center rounded-lg p-1 bg-red-600 hover:bg-red-700 "
-        + "transition duration-300'>" + "&#128077; " + await helper.getLikes(postId) + "</button>"
-      } else { 
-        likeOrUnlikeButton = "<button id=" + postId + "-like-button class='flex items-center rounded-lg p-1 bg-green-600 hover:bg-green-700 "
-        + "transition duration-300'>" + "&#128077; " + await helper.getLikes(postId) + "</button>"
-      }
-      
-      const timelinePost = document.createElement('div')
-      timelinePost.className = "p-5 m-5 rounded-lg bg-black"
-      timelinePost.innerHTML += "<div class='flex flex-row text-center items-center justify-between mb-2'>" +
-      "<p>" + postUsername + "</p>" + followOrUnfollowButton + "</div><hr>"
-      timelinePost.innerHTML += "<div class='post-text m-2 break-words'>" + timeline[i].text + "</div>"
-      timelinePost.innerHTML += "<hr><div class='flex items-center text-center mt-2 justify-between'><p>"
-      + timeline[i].timestamp + "</p>" + likeOrUnlikeButton + "</div>"
-      
-      document.getElementById('timeline').append(timelinePost)
     }
   }
 }
@@ -156,28 +175,33 @@ async function publishPost () {
         + "transition duration-300'>" + "&#128077; " + await helper.getLikes(postData.id) + "</button>" 
       }
 
-    const newPostDiv = document.createElement('div')
-    newPostDiv.className = 'p-5 m-5 rounded-lg bg-black'
-    newPostDiv.innerHTML += "<div class='flex flex-row text-center items-center justify-between mb-2'>" +
-    '<p>' + username + '</p></div><hr>'
-    newPostDiv.innerHTML += "<div class='post-text m-2'>" + postData.text + '</div>'
-    newPostDiv.innerHTML += "<hr><div class='flex items-center text-center mt-2 justify-between'><p>"
-      + postData.timestamp + "</p>" + likeOrUnlikeButton + "<div>"
+    // const newPostDiv = document.createElement('div')
+    // newPostDiv.className = 'p-5 m-5 rounded-lg bg-black'
+    // newPostDiv.innerHTML += "<div class='flex flex-row text-center items-center justify-between mb-2'>" +
+    // '<p>' + username + '</p></div><hr>'
+    // newPostDiv.innerHTML += "<div class='post-text m-2'>" + postData.text + '</div>'
+    // newPostDiv.innerHTML += "<hr><div class='flex items-center text-center mt-2 justify-between'><p>"
+    //   + postData.timestamp + "</p>" + likeOrUnlikeButton + "<div>"
 
-    document.getElementById('new-post-area').after(newPostDiv)
+    // document.getElementById('new-post-area').after(newPostDiv)
     document.getElementById('new-post-area').classList.toggle('hidden')
-    
   }
 }
 
 if (window.location.pathname.includes('public_timeline') || window.location.pathname.includes('user_timeline')) {
-  document.getElementById('post-button').onclick = function () {
-    publishPost()
+  document.getElementById('post-button').onclick = async function () {
+    await publishPost()
+    generateAllPosts()
   }
 }
 
 // Like/unlike and follow/unfollow button functionality
 if (window.location.pathname.includes('timeline')) {
+  await generateAllPosts()
+}
+
+async function generateAllPosts() {
+  await generatePostDivs()
   for (let i = 0; i < timeline.length; i++) {
     likeOrUnlikeClick(i)
     followOrUnfollowClick(i)
