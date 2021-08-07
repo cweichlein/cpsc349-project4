@@ -1,5 +1,4 @@
 import * as helper from './helper.js'
-import * as mockroblog from './mockroblog.js'
 
 console.log('following.js called')
 

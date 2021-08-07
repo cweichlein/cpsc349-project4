@@ -2,6 +2,7 @@ import { data } from "autoprefixer"
 
 // GET and POST request help from: https://www.digitalocean.com/community/tutorials/how-to-use-the-javascript-fetch-api-to-get-data
 // DELETE request help from: https://dev.to/silvenleaf/fetch-api-easiest-explanation-part-4-4-delete-by-silvenleaf-4376
+
 // Returns user object from an ID or username
 export function getUser (key) {
   let url = null
@@ -213,21 +214,20 @@ export async function addFollower(userId, userToFollowId)
     }),
     headers: new Headers()
   })
-  // .then(response => response.json())
+  .then(response => response.json())
   .then(data => 
     {
       console.log(data)
       return data
     })
-  // .catch(error => {
-  //   console.log(error)
-  //   return null
-  // })
+  .catch(error => {
+    console.log(error)
+    return null
+  })
 }
 
 // Parameters: ID of current user, and ID of following user
-export async function removeFollower(user, userToUnfollowId)
-{
+export async function removeFollower(user, userToUnfollowId) {
   let tableId = 0
   const followArr = await getFollowing(user)
   for (let i = 0; i < followArr.length; i++) {
@@ -240,14 +240,14 @@ export async function removeFollower(user, userToUnfollowId)
     method: 'DELETE',
     headers: new Headers()
   })
-  // .then(response => response.json())
+  .then(response => response.json())
   .then(data => 
     {
       console.log(data)
       return data
     })
-  // .catch(error => {
-  //   console.log(error)
-  //   return null
-  // })
+  .catch(error => {
+    console.log(error)
+    return null
+  })
 }
