@@ -57,7 +57,7 @@ module.exports = {
       filename: 'direct_messages.html',
       template: path.resolve(__dirname, 'src/direct_messages.html'),
       inject: true,
-      chunks: ['dms', 'tailwind']
+      chunks: ['dms', 'timelines', 'tailwind']
     })
   ],
   module: {

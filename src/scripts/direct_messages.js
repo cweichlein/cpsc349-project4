@@ -131,9 +131,9 @@ export async function displayMessages(convo_key) {
       dmPost.innerHTML += "<div class='flex justify-end mb-4'>"
       
       if(dm_list[i].from_user_id === current_user_id && dm_list[i].convo_key === convo_key) 
-        dmPost.innerHTML += "<div class='mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white'>" + result.text + "</div>"
+        dmPost.innerHTML += "<div class='mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white break-words'>" + result.text + "</div>"
       else if(dm_list[i].to_user_id === current_user_id && dm_list[i].convo_key === convo_key)
-        dmPost.innerHTML += "<div class='ml-2 py-3 px-4 bg-gray-400 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white'>" + result.text  + "</div>"
+        dmPost.innerHTML += "<div class='ml-2 py-3 px-4 bg-gray-400 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white break-words'>" + result.text  + "</div>"
       
       dmPost.innerHTML += "</div>"
 
