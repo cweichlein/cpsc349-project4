@@ -3,8 +3,8 @@
 import * as helper from './helper.js'
 
 let dm_list = []
+// Todo pull from storage user id
 //const username = window.sessionStorage.getItem('username')
-const username = 'ProvAvery';
 //const user_id = await helper.getUser(1)
 const current_user_id = 1
 
