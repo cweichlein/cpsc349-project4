@@ -94,7 +94,6 @@ mobileBtn.addEventListener('click', () => {
 async function generatePostDivs() {
   if (!window.location.pathname.includes('/about.html')) {
     timeline = await getTimeline()
-    console.log(timeline)
     if (timeline !== null) {
       document.getElementById('timeline').innerHTML = ''
       for (let i = 0; i < timeline.length; i++) {
@@ -160,9 +159,7 @@ if (window.location.pathname.includes('public_timeline') || window.location.path
 async function publishPost () {
   let newPostText = document.getElementById('new-post-text').value
   if (newPostText) {
-    console.log(loggedInUser.id, newPostText)
     let postData = await helper.postMessage(loggedInUser.id, newPostText)
-    console.log(postData)
     document.getElementById('new-post-text').value = ''
 
     let likeOrUnlikeButton = null

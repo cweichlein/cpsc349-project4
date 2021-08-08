@@ -86,7 +86,6 @@ export async function createDM (new_from_user_id, new_to_user_id, new_in_reply_t
   })
   .then((response) => response.json())
   .then((data) => {
-    console.log(data)
     return data
   })
   .catch(error => {
@@ -100,14 +99,13 @@ async function directMessage () {
   const new_to_user_id = currentConvoUser
   const new_in_reply_to_id = latestMessageId
   const new_text = document.getElementById('new-message-text').value
-  console.log(new_from_user_id, new_to_user_id, new_in_reply_to_id, new_text)
   const userInfo = await createDM(new_from_user_id, new_to_user_id, new_in_reply_to_id, new_text) // todo
 }
 
 document.getElementById('send-message-button').addEventListener('click', async () => {
   await directMessage()
+  dm_list = []
   await Promise.all([getdirectMessagesSent(url_sent), getdirectMessagesReceived(url_from)])
-  document.getElementById('messages').innerHTML = ''
   displayMessages(currentConvoUser)
 })
 
@@ -132,9 +130,9 @@ export async function displayMessages(convo_key) {
   document.getElementById('messages').innerHTML = ''
   if (dm_list !== null) {
     const dmPost = document.createElement('div')
-    dmPost.className = "flex flex-col my-5"
-    dmPost.id = "array"
+    dmPost.className = "array flex flex-col my-5"
     for(let i = 0; i < dm_list.length; i++) {
+      console.log(dm_list)
       const result = await dm_list[i]
       // dmPost.innerHTML += "<div class='flex justify-end mb-4'>"
       
