@@ -3,6 +3,8 @@
 import * as helper from './helper.js'
 
 let dm_list = []
+let currentConvoUser = null
+let latestMessageId = null
 //const username = window.sessionStorage.getItem('username')
 //const username = 'ProvAvery';
 //const user_id = await helper.getUser(1)
@@ -92,30 +94,34 @@ export async function createDM (new_from_user_id, new_to_user_id, new_in_reply_t
     return null
   })
 }
-createDM(1,3,2,'lol')
-createDM(3,1,3,'???')
 
 async function directMessage () {
-  const new_from_user_id = window.sessionStorage
-  const new_to_user_id = document.getElementById('to-user').value
-  const new_in_reply_to_id = document.getElementById('reply-post-id').value
-  const new_text = document.getElementById('message').value
-  // const userInfo = mockroblog.createUser(usernameInput, emailInput, passwordInput) // todo
-  const userInfo = await helper.createDM(new_from_user_id, new_to_user_id, new_in_reply_to_id, new_text) // todo
-  console.log(userInfo)
-
+  const new_from_user_id = loggedInUser.id
+  const new_to_user_id = currentConvoUser
+  const new_in_reply_to_id = latestMessageId
+  const new_text = document.getElementById('new-message-text').value
+  console.log(new_from_user_id, new_to_user_id, new_in_reply_to_id, new_text)
+  const userInfo = await createDM(new_from_user_id, new_to_user_id, new_in_reply_to_id, new_text) // todo
 }
+
+document.getElementById('send-message-button').addEventListener('click', async () => {
+  await directMessage()
+  await Promise.all([getdirectMessagesSent(url_sent), getdirectMessagesReceived(url_from)])
+  document.getElementById('messages').innerHTML = ''
+  displayMessages(currentConvoUser)
+})
 
 // Display convo list
 if(temp_key_list !== null) {
   for(let i = 0; i < temp_key_list.length; i++) {
     const result = await helper.getUser(temp_key_list[i])
     const dmPost = document.createElement('div')
-    dmPost.className = "flex flex-row py-4 px-2 justify-center items-center border-b-2"
+    dmPost.className = "flex flex-row justify-center items-center border-b-2"
 
-    dmPost.innerHTML += "<div class='w-full'>"
-    dmPost.innerHTML += "<div class='text-lg font-semibold text-black'>" + result.username + "</div>"
-    dmPost.innerHTML += "</div>"
+    // dmPost.innerHTML += "<div class='w-full'>"
+    dmPost.innerHTML += "<button id='" + result.id + "' class='conversation-tab w-full py-4 px-2 text-lg font-semibold text-black"
+    + " hover:bg-gray-200 transition duration-300'>" + result.username + "</button>"
+    // dmPost.innerHTML += "</div>"
       
       document.getElementById('conv-list-container').append(dmPost)
   }
@@ -123,22 +129,40 @@ if(temp_key_list !== null) {
 
 // Create divs for each message and display them on the page
 export async function displayMessages(convo_key) {
-  if(dm_list !== null) {
+  document.getElementById('messages').innerHTML = ''
+  if (dm_list !== null) {
     const dmPost = document.createElement('div')
-    dmPost.className = "flex flex-col mt-5"
+    dmPost.className = "flex flex-col my-5"
+    dmPost.id = "array"
     for(let i = 0; i < dm_list.length; i++) {
       const result = await dm_list[i]
-      dmPost.innerHTML += "<div class='flex justify-end mb-4'>"
+      // dmPost.innerHTML += "<div class='flex justify-end mb-4'>"
       
-      if(dm_list[i].from_user_id === current_user_id && dm_list[i].convo_key === convo_key) 
-        dmPost.innerHTML += "<div class='mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white break-words'>" + result.text + "</div>"
-      else if(dm_list[i].to_user_id === current_user_id && dm_list[i].convo_key === convo_key)
-        dmPost.innerHTML += "<div class='ml-2 py-3 px-4 bg-gray-400 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white break-words'>" + result.text  + "</div>"
+      if (dm_list[i].from_user_id === current_user_id && dm_list[i].convo_key === convo_key) {
+        latestMessageId = result.id
+        dmPost.innerHTML += "<div class='my-2 mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white break-words'>" + result.text + "</div>"
+      }
+      else if(dm_list[i].to_user_id === current_user_id && dm_list[i].convo_key === convo_key) {
+        latestMessageId = result.id
+        dmPost.innerHTML += "<div class='my-2 ml-2 py-3 px-4 bg-gray-400 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white break-words'>" + result.text  + "</div>"
+      }
       
-      dmPost.innerHTML += "</div>"
+      // dmPost.innerHTML += "</div>"
 
       document.getElementById('messages').append(dmPost)
     }
   }
 }
-displayMessages(3)
+
+async function selectUser() {
+  let conversations = document.getElementsByClassName('conversation-tab')
+  for (let i = 0; i < conversations.length; i++) {
+    conversations[i].addEventListener('click', async () => {
+      document.getElementById('new-message-area').classList.remove('hidden')
+      currentConvoUser = parseInt(conversations[i].getAttribute('id'))
+      await displayMessages(currentConvoUser)
+    })
+  }
+}
+
+selectUser()

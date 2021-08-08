@@ -48,7 +48,7 @@
         </nav>
 
         <!-- Direct Message Content -->
-        <main class="direct-messages-container mx-auto shadow-lg rounded-lg col-span-4 lg:col-start-2 lg:col-end-4 lg:h-screen w-11/12">
+        <main class="direct-messages-container mx-auto shadow-lg rounded-lg col-span-4 lg:col-start-2 lg:col-end-4 w-11/12">
             <!-- Header -->
             <div class="dm-header px-5 py-5 flex justify-between items-center bg-white border-b-2">
                 <div class="font-semibold text-2xl text-black w-3/4">Direct Messages</div>
@@ -58,7 +58,7 @@
             </div>
 
             <!-- Chatting -->
-            <div class="chat-container flex flex-row justify-between bg-white h-screen">
+            <div class="chat-container flex flex-row bg-white max-h-auto">
                 <!-- Convo List Container -->
                 <div id="conv-list-container" class="flex flex-col w-2/5 border-r-2 overflow-y-auto">
                     <!-- Compose Button -->
@@ -68,9 +68,16 @@
                 </div>
     
                 <!-- Messages -->
-                <div id="messages" class="w-full px-5 flex flex-col justify-between">
+                <div class="flex flex-col w-full">
+                    <div id="messages" class="w-full px-5 flex flex-col justify-between">
+                    </div>
+                    <div id="new-message-area" class="hidden m-5">
+                        <input class="bg-gray-900 w-10/12 p-2 border rounded-xl outline-none" placeholder="New message..." type="text" name="New message" id="new-message-text">
+                        <button id="send-message-button" class="bg-blue-400 border rounded-xl p-2 hover:bg-blue-600" type="submit">Send</button>
+                    </div>
                 </div>
                 
+
             </div>
         </main>
 
