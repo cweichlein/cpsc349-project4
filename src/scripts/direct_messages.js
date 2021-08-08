@@ -164,3 +164,20 @@ async function selectUser() {
 }
 
 selectUser()
+
+let newConversationButton = document.getElementById('new-conversation-button')
+let dropdownArea = document.getElementById('dropdown-area')
+newConversationButton.addEventListener('click', () => {
+  if (newConversationButton.innerHTML === 'X') {
+    newConversationButton.innerHTML = 'New Conversation'
+  } else {
+    newConversationButton.innerHTML = 'X'
+  }
+  dropdownArea.classList.toggle('hidden')
+})
+
+let dropdown = document.getElementById('new-conversation-dropdown')
+let startNewConversationButton = document.getElementById('start-new-conversation-button')
+startNewConversationButton.addEventListener('click', () => {
+  console.log(dropdown.value)
+})
